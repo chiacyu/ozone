@@ -46,6 +46,7 @@ import org.apache.hadoop.ozone.container.ContainerTestHelper;
 import org.apache.hadoop.ozone.container.TestHelper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -72,6 +73,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 /**
  * Tests BlockDataStreamOutput class.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Timeout(300)
 public class TestBlockDataStreamOutput {
   private MiniOzoneCluster cluster;
@@ -190,7 +192,7 @@ public class TestBlockDataStreamOutput {
    * @throws IOException
    */
   @BeforeAll
-  public static void init() throws Exception {
+  public void init() throws Exception {
     cluster = createCluster();
   }
 
@@ -202,7 +204,7 @@ public class TestBlockDataStreamOutput {
    * Shutdown MiniDFSCluster.
    */
   @AfterAll
-  public static void shutdown() {
+  public void shutdown() {
     if (cluster != null) {
       cluster.shutdown();
     }
