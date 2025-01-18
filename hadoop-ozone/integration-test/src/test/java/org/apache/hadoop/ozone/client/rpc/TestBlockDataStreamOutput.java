@@ -83,7 +83,7 @@ public class TestBlockDataStreamOutput {
   private static int blockSize = 2 * maxFlushSize;
   private static String volumeName = "testblockoutputstream";
   private static String bucketName = volumeName;
-  private static String keyString;
+  private static String keyString = UUID.randomUUID().toString();;
   private static final DatanodeVersion DN_OLD_VERSION = DatanodeVersion.SEPARATE_RATIS_PORTS_AVAILABLE;
 
   static MiniOzoneCluster createCluster() throws IOException,
