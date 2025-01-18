@@ -74,7 +74,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 @Timeout(300)
 public class TestBlockDataStreamOutput {
-  private static MiniOzoneCluster cluster;
+  private MiniOzoneCluster cluster;
   private static int chunkSize = 100;
   private static int flushSize = 2 * chunkSize;
   private static int maxFlushSize = 2 * flushSize;
