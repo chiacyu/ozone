@@ -18,6 +18,7 @@
 package org.apache.hadoop.ozone;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
@@ -41,6 +42,7 @@ import org.apache.ratis.util.ExitUtils;
 import org.apache.ratis.util.function.CheckedFunction;
 
 import com.amazonaws.services.s3.AmazonS3;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Interface used for MiniOzoneClusters.
@@ -292,6 +294,8 @@ public interface MiniOzoneCluster extends AutoCloseable {
     protected static final int ACTIVE_SCMS_NOT_SET = -1;
     protected static final int DEFAULT_RATIS_RPC_TIMEOUT_SEC = 1;
 
+    @TempDir
+    Path tempDir;
     protected OzoneConfiguration conf;
     protected String path;
 
@@ -332,8 +336,7 @@ public interface MiniOzoneCluster extends AutoCloseable {
 
     private void setClusterId() {
       clusterId = UUID.randomUUID().toString();
-      path = GenericTestUtils.getTempPath(
-          MiniOzoneClusterImpl.class.getSimpleName() + "-" + clusterId);
+      path = tempDir.resolve(MiniOzoneClusterImpl.class.getSimpleName() + "-" + clusterId).toString();
     }
 
     /**
