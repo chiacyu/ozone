@@ -332,8 +332,6 @@ public interface MiniOzoneCluster extends AutoCloseable {
 
     private void setClusterId() {
       clusterId = UUID.randomUUID().toString();
-      path = GenericTestUtils.getTempPath(
-          MiniOzoneClusterImpl.class.getSimpleName() + "-" + clusterId);
     }
 
     /**
@@ -359,6 +357,11 @@ public interface MiniOzoneCluster extends AutoCloseable {
 
     public Builder setSecretKeyClient(SecretKeyClient client) {
       this.secretKeyClient = client;
+      return this;
+    }
+
+    public Builder setPath(String path) {
+      this.path = path;
       return this;
     }
 
