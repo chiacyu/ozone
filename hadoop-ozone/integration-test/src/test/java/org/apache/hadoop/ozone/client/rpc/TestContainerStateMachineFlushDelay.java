@@ -43,6 +43,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,6 +77,8 @@ public class TestContainerStateMachineFlushDelay {
   private int maxFlushSize;
   private int blockSize;
   private String keyString;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -117,6 +120,7 @@ public class TestContainerStateMachineFlushDelay {
         MiniOzoneCluster.newBuilder(conf).setNumDatanodes(1)
             .setCertificateClient(new CertificateClientTestImpl(conf))
             .setSecretKeyClient(new SecretKeyTestClient())
+            .setPath(dir.getPath())
             .build();
     cluster.waitForClusterToBeReady();
     cluster.getOzoneManager().startSecretManager();

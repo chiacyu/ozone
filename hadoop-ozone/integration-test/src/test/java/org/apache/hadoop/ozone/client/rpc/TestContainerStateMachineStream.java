@@ -41,7 +41,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.time.Duration;
@@ -67,6 +69,8 @@ public class TestContainerStateMachineStream {
   private ObjectStore objectStore;
   private String volumeName;
   private String bucketName;
+  @TempDir
+  private File dir;
 
   private static final int CHUNK_SIZE = 100;
   private static final int FLUSH_SIZE = 2 * CHUNK_SIZE;
@@ -127,6 +131,7 @@ public class TestContainerStateMachineStream {
     conf.setQuietMode(false);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     cluster.waitForPipelineTobeReady(HddsProtos.ReplicationFactor.ONE, 60000);

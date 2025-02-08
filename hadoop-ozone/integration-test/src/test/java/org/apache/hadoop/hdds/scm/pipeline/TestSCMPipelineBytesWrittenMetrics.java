@@ -38,7 +38,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -62,6 +64,8 @@ public class TestSCMPipelineBytesWrittenMetrics {
   private MiniOzoneCluster cluster;
   private OzoneConfiguration conf;
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -74,6 +78,7 @@ public class TestSCMPipelineBytesWrittenMetrics {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

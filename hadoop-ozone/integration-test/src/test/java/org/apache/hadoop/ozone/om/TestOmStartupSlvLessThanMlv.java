@@ -44,6 +44,9 @@ public class TestOmStartupSlvLessThanMlv {
   @TempDir
   private Path folder;
 
+  @TempDir
+  private File dir;
+
   @Test
   public void testStartupSlvLessThanMlv() throws Exception {
     // Add subdirectories under the temporary folder where the version file
@@ -65,7 +68,7 @@ public class TestOmStartupSlvLessThanMlv {
     // Create version file with MLV > SLV, which should fail the cluster build.
     UpgradeTestUtils.createVersionFile(omSubdir, HddsProtos.NodeType.OM, mlv);
 
-    MiniOzoneCluster.Builder clusterBuilder = MiniOzoneCluster.newBuilder(conf);
+    MiniOzoneCluster.Builder clusterBuilder = MiniOzoneCluster.newBuilder(conf).setPath(dir.getPath());
 
     OMException omException = assertThrows(OMException.class,
         clusterBuilder::build);

@@ -55,6 +55,7 @@ import org.apache.ratis.server.leader.FollowerInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.event.Level;
 
 import static org.apache.hadoop.ozone.OzoneConsts.SCM_DUMMY_SERVICE_ID;
@@ -79,6 +80,8 @@ public class TestAddRemoveOzoneManager {
   private OzoneConfiguration conf;
   private long lastTransactionIndex;
   private UserGroupInformation user;
+  @TempDir
+  private File dir;
 
   private static final String OM_SERVICE_ID = "om-add-remove";
   private static final String VOLUME_NAME;
@@ -98,6 +101,7 @@ public class TestAddRemoveOzoneManager {
         .setSCMServiceId(SCM_DUMMY_SERVICE_ID)
         .setOMServiceId(OM_SERVICE_ID)
         .setNumOfOzoneManagers(numInitialOMs)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = OzoneClientFactory.getRpcClient(OM_SERVICE_ID, conf);

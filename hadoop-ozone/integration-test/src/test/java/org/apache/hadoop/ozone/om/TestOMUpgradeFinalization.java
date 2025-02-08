@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -48,12 +49,15 @@ import org.apache.ratis.util.LifeCycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests for OM upgrade finalization.
  * TODO: can be merged into class with other OM tests with per-method cluster
  */
 class TestOMUpgradeFinalization {
+  @TempDir
+  private static File dir;
   static {
     AuditLogTestUtils.enableAuditLog();
   }
@@ -124,7 +128,7 @@ class TestOMUpgradeFinalization {
   private static MiniOzoneHAClusterImpl newCluster(OzoneConfiguration conf)
       throws IOException {
     conf.setInt(OZONE_OM_INIT_DEFAULT_LAYOUT_VERSION, INITIAL_VERSION.layoutVersion());
-    MiniOzoneHAClusterImpl.Builder builder = MiniOzoneCluster.newHABuilder(conf);
+    MiniOzoneHAClusterImpl.Builder builder = MiniOzoneCluster.newHABuilder(conf).setPath(dir.getPath());
     builder.setOMServiceId(UUID.randomUUID().toString())
         .setNumOfOzoneManagers(3)
         .setNumDatanodes(1);

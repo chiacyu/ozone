@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.recon;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.event.Level;
 
 import static org.apache.hadoop.hdds.HddsConfigKeys.HDDS_CONTAINER_REPORT_INTERVAL;
@@ -63,6 +65,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class TestReconTasks {
   private MiniOzoneCluster cluster = null;
   private OzoneConfiguration conf;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void init() throws Exception {
@@ -76,7 +80,9 @@ public class TestReconTasks {
 
     conf.set("ozone.scm.stale.node.interval", "6s");
     conf.set("ozone.scm.dead.node.interval", "8s");
-    cluster =  MiniOzoneCluster.newBuilder(conf).setNumDatanodes(1)
+    cluster =  MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
+        .setNumDatanodes(1)
         .includeRecon(true).build();
     cluster.waitForClusterToBeReady();
     cluster.waitForPipelineTobeReady(ONE, 30000);

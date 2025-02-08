@@ -48,9 +48,11 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyLocationInfoGroup;
 import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
@@ -86,6 +88,8 @@ public class TestFinalizeBlock {
   private ObjectStore objectStore;
   private static String volumeName = UUID.randomUUID().toString();
   private static String bucketName = UUID.randomUUID().toString();
+  @TempDir
+  private File dir;
 
   private void setup(boolean enableSchemaV3) throws Exception {
     conf = new OzoneConfiguration();
@@ -110,6 +114,7 @@ public class TestFinalizeBlock {
     conf.setFromObject(scmConfig);
 
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(1).build();
     cluster.waitForClusterToBeReady();
     cluster.waitForPipelineTobeReady(ONE, 30000);

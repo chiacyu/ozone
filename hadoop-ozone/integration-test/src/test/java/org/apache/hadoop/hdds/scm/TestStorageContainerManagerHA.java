@@ -45,9 +45,11 @@ import org.apache.ratis.statemachine.SnapshotInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
@@ -79,6 +81,8 @@ public class TestStorageContainerManagerHA {
 
   private MiniOzoneHAClusterImpl cluster = null;
   private OzoneConfiguration conf;
+  @TempDir
+  private File dir;
   private String omServiceId;
   private static int numOfOMs = 3;
   private String scmServiceId;
@@ -104,6 +108,7 @@ public class TestStorageContainerManagerHA {
         .setSCMServiceId(scmServiceId)
         .setNumOfStorageContainerManagers(numOfSCMs)
         .setNumOfOzoneManagers(numOfOMs)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     waitForLeaderToBeReady();

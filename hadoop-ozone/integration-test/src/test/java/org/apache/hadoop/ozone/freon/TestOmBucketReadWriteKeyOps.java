@@ -65,6 +65,8 @@ public class TestOmBucketReadWriteKeyOps {
   private static final Logger LOG =
       LoggerFactory.getLogger(TestOmBucketReadWriteKeyOps.class);
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() {
@@ -92,7 +94,9 @@ public class TestOmBucketReadWriteKeyOps {
     conf.setBoolean(OMConfigKeys.OZONE_OM_ENABLE_FILESYSTEM_PATHS, fsPathsEnabled);
     conf.set(OMConfigKeys.OZONE_DEFAULT_BUCKET_LAYOUT,
         BucketLayout.OBJECT_STORE.name());
-    cluster = MiniOzoneCluster.newBuilder(conf).setNumDatanodes(5).build();
+    cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
+        .setNumDatanodes(5).build();
     cluster.waitForClusterToBeReady();
     cluster.waitTobeOutOfSafeMode();
 

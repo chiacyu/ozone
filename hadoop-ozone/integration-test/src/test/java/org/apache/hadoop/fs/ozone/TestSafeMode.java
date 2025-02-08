@@ -33,7 +33,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.function.Function;
@@ -55,6 +57,8 @@ class TestSafeMode {
   private static final String VOLUME = "vol";
   private static final String BUCKET = "bucket";
   private static MiniOzoneClusterProvider clusterProvider;
+  @TempDir
+  private static File dir;
 
   private MiniOzoneCluster cluster;
 
@@ -62,7 +66,7 @@ class TestSafeMode {
   static void setup() {
     OzoneConfiguration conf = new OzoneConfiguration();
     clusterProvider = new MiniOzoneClusterProvider(
-        MiniOzoneCluster.newBuilder(conf), 2);
+        MiniOzoneCluster.newBuilder(conf).setPath(dir.getPath()), 2);
   }
 
   @BeforeEach

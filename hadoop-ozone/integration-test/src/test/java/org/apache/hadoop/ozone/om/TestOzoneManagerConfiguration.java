@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.om;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
@@ -60,6 +61,8 @@ public class TestOzoneManagerConfiguration {
   private MiniOzoneCluster cluster;
   private OzoneManager om;
   private OzoneManagerRatisServer omRatisServer;
+  @TempDir
+  private File dir;
 
   private static final long RATIS_RPC_TIMEOUT = 500L;
 
@@ -80,8 +83,9 @@ public class TestOzoneManagerConfiguration {
 
   private void startCluster() throws Exception {
     cluster =  MiniOzoneCluster.newBuilder(conf)
-      .withoutDatanodes()
-      .build();
+        .setPath(dir.getPath())
+        .withoutDatanodes()
+        .build();
     cluster.waitForClusterToBeReady();
   }
 

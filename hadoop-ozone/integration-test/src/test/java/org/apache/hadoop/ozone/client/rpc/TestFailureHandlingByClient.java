@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.client.rpc;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ import org.apache.ratis.proto.RaftProtos;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -94,6 +96,8 @@ public class TestFailureHandlingByClient {
   private String bucketName;
   private String keyString;
   private RaftProtos.ReplicationLevel watchType;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -147,6 +151,7 @@ public class TestFailureHandlingByClient {
         Collections.singleton(HddsUtils.getHostName(conf))).get(0),
         "/rack1");
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(10).build();
     cluster.waitForClusterToBeReady();
     //the easiest way to create an open container is creating a key

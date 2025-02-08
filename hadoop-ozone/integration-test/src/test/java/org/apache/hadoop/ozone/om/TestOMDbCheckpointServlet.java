@@ -147,6 +147,8 @@ public class TestOMDbCheckpointServlet {
   private DBCheckpoint dbCheckpoint;
   @TempDir
   private Path folder;
+  @TempDir
+  private File dir;
   private static final String FABRICATED_FILE_NAME = "fabricatedFile.sst";
   private static final AtomicInteger COUNTER = new AtomicInteger();
 
@@ -163,6 +165,7 @@ public class TestOMDbCheckpointServlet {
   private void setupCluster() throws Exception {
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(1)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

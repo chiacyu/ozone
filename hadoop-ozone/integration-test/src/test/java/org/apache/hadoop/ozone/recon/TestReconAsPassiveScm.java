@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.recon;
 
+import java.io.File;
 import java.util.Optional;
 
 import org.apache.hadoop.hdds.client.RatisReplicationConfig;
@@ -40,6 +41,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.event.Level;
 
 import static org.apache.hadoop.hdds.HddsConfigKeys.HDDS_CONTAINER_REPORT_INTERVAL;
@@ -62,13 +64,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class TestReconAsPassiveScm {
   private MiniOzoneCluster cluster;
   private OzoneConfiguration conf;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void init() throws Exception {
     conf = new OzoneConfiguration();
     conf.set(HDDS_CONTAINER_REPORT_INTERVAL, "5s");
     conf.set(HDDS_PIPELINE_REPORT_INTERVAL, "5s");
-    cluster =  MiniOzoneCluster.newBuilder(conf).setNumDatanodes(3)
+    cluster =  MiniOzoneCluster.newBuilder(conf)
+        .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .includeRecon(true).build();
     cluster.waitForClusterToBeReady();
     GenericTestUtils.setLogLevel(ReconNodeManager.LOG, Level.DEBUG);

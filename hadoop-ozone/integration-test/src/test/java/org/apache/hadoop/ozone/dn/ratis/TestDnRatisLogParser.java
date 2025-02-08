@@ -33,6 +33,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.hadoop.hdds.scm.ScmConfigKeys.OZONE_SCM_RATIS_PIPELINE_LIMIT;
@@ -47,12 +48,15 @@ public class TestDnRatisLogParser {
   private MiniOzoneCluster cluster = null;
   private final ByteArrayOutputStream out = new ByteArrayOutputStream();
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
     OzoneConfiguration conf = new OzoneConfiguration();
     conf.setInt(OZONE_SCM_RATIS_PIPELINE_LIMIT, 2);
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(1).build();
     cluster.waitForClusterToBeReady();
     System.setOut(new PrintStream(out, false, UTF_8.name()));

@@ -39,9 +39,11 @@ import org.apache.hadoop.ozone.container.ContainerTestHelper;
 import org.apache.ozone.test.GenericTestUtils;
 import org.apache.ratis.proto.RaftProtos;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +69,8 @@ public class TestCommitInRatis {
   private int blockSize;
   private StorageContainerLocationProtocolClientSideTranslatorPB
       storageContainerLocationClient;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -106,6 +110,7 @@ public class TestCommitInRatis {
     conf.setQuietMode(false);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     // the easiest way to create an open container is creating a key

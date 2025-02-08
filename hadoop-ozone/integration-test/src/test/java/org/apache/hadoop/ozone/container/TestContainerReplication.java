@@ -36,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.any;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Duration;
@@ -87,6 +88,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -103,6 +105,8 @@ class TestContainerReplication {
   private static final String VOLUME = "vol1";
   private static final String BUCKET = "bucket1";
   private static final String KEY = "key1";
+  @TempDir
+  private static File dir;
 
   private static final List<Class<? extends PlacementPolicy>> POLICIES = asList(
       SCMContainerPlacementCapacity.class,
@@ -168,6 +172,7 @@ class TestContainerReplication {
   private static MiniOzoneCluster newCluster(OzoneConfiguration conf)
       throws IOException {
     return MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(5)
         .build();
   }

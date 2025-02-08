@@ -39,12 +39,14 @@ import org.apache.ozone.test.GenericTestUtils;
 import org.apache.ozone.test.tag.Flaky;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +83,8 @@ public class TestScmHAFinalization {
   private static final int NUM_DATANODES = 3;
   private static final int NUM_SCMS = 3;
   private Future<?> finalizationFuture;
+  @TempDir
+  private File dir;
 
   public void init(OzoneConfiguration conf,
       UpgradeFinalizationExecutor<SCMUpgradeFinalizationContext> executor,
@@ -98,6 +102,7 @@ public class TestScmHAFinalization {
         .setNumOfOzoneManagers(1)
         .setSCMConfigurator(configurator)
         .setNumDatanodes(NUM_DATANODES)
+        .setPath(dir.getPath())
         .setDatanodeFactory(UniformDatanodesFactory.newBuilder()
             .setLayoutVersion(HDDSLayoutFeature.INITIAL_VERSION.layoutVersion())
             .build());

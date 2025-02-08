@@ -41,7 +41,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -61,6 +63,8 @@ public class TestReconWithOzoneManagerHA {
   private static final String OM_SERVICE_ID = "omService1";
   private static final String VOL_NAME = "testrecon";
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -74,6 +78,7 @@ public class TestReconWithOzoneManagerHA {
     MiniOzoneHAClusterImpl.Builder builder = MiniOzoneCluster.newHABuilder(conf);
     builder.setOMServiceId(OM_SERVICE_ID)
         .setNumOfOzoneManagers(3)
+        .setPath(dir.getPath())
         .setNumDatanodes(1)
         .includeRecon(true);
     cluster = builder.build();

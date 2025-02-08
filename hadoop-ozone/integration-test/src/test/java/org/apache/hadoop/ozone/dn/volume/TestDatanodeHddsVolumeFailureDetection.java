@@ -57,6 +57,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.UUID;
 
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.Timeout;
@@ -79,6 +80,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class TestDatanodeHddsVolumeFailureDetection {
 
   private static final int KEY_SIZE = 128;
+  @TempDir
+  private static File dir;
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
@@ -273,6 +276,7 @@ class TestDatanodeHddsVolumeFailureDetection {
     dnConf.setDiskCheckMinGap(Duration.ofSeconds(5));
     ozoneConfig.setFromObject(dnConf);
     MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(ozoneConfig)
+        .setPath(dir.getPath())
         .setNumDatanodes(1)
         .build();
     cluster.waitForClusterToBeReady();

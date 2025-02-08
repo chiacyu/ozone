@@ -17,6 +17,7 @@
  */
 package org.apache.hadoop.ozone.container.common.statemachine.commandhandler;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -82,6 +83,7 @@ import org.apache.ozone.test.tag.Flaky;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
@@ -124,6 +126,8 @@ public class TestBlockDeletion {
   private long maxTransactionId = 0;
   private ScmBlockDeletingServiceMetrics metrics;
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void init() throws Exception {
@@ -176,6 +180,7 @@ public class TestBlockDeletion {
     conf.setFromObject(replicationConf);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

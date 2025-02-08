@@ -35,8 +35,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,6 +52,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class TestReconScmSnapshot {
   private OzoneConfiguration conf;
   private MiniOzoneCluster ozoneCluster = null;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -62,6 +66,7 @@ public class TestReconScmSnapshot {
     ozoneCluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(4)
         .includeRecon(true)
+        .setPath(dir.getPath())
         .build();
     ozoneCluster.waitForClusterToBeReady();
   }

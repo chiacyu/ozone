@@ -39,7 +39,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,6 +59,8 @@ public class TestOzoneManagerSnapshotProvider {
   private int numOfOMs = 3;
 
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -68,6 +73,7 @@ public class TestOzoneManagerSnapshotProvider {
     cluster = MiniOzoneCluster.newHABuilder(conf)
         .setOMServiceId(omServiceId)
         .setNumOfOzoneManagers(numOfOMs)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = OzoneClientFactory.getRpcClient(omServiceId, conf);

@@ -46,7 +46,9 @@ import org.apache.ozone.test.tag.Flaky;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
@@ -73,6 +75,8 @@ public class TestMultiBlockWritesWithDnFailures {
   private String volumeName;
   private String bucketName;
   private String keyString;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -113,6 +117,7 @@ public class TestMultiBlockWritesWithDnFailures {
     conf.setQuietMode(false);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(datanodes)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     //the easiest way to create an open container is creating a key

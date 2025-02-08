@@ -391,6 +391,11 @@ public class MiniOzoneHAClusterImpl extends MiniOzoneClusterImpl {
       return this;
     }
 
+    public Builder setPath(String path) {
+      this.path = path;
+      return this;
+    }
+
     @Override
     public MiniOzoneHAClusterImpl build() throws IOException {
       if (numOfActiveOMs > numOfOMs) {

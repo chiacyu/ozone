@@ -58,6 +58,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
@@ -74,6 +75,8 @@ public class TestSCMInstallSnapshotWithHA {
   private String scmServiceId;
   private int numOfOMs = 1;
   private int numOfSCMs = 3;
+  @TempDir
+  private File dir;
 
   private static final long SNAPSHOT_THRESHOLD = 5;
   private static final int LOG_PURGE_GAP = 5;
@@ -100,6 +103,7 @@ public class TestSCMInstallSnapshotWithHA {
         .setNumOfOzoneManagers(numOfOMs)
         .setNumOfStorageContainerManagers(numOfSCMs)
         .setNumOfActiveSCMs(2)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
   }

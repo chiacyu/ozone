@@ -27,6 +27,9 @@ import org.apache.hadoop.ozone.client.OzoneClient;
 import org.apache.hadoop.ozone.om.helpers.BucketLayout;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.io.File;
 
 /**
  * Verifies OM startup with different layout.
@@ -36,10 +39,13 @@ public class TestOMStartupWithBucketLayout {
 
   private static MiniOzoneCluster cluster;
   private static OzoneClient client;
+  @TempDir
+  private static File dir;
 
   public static void startCluster(OzoneConfiguration conf)
       throws Exception {
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .withoutDatanodes().build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

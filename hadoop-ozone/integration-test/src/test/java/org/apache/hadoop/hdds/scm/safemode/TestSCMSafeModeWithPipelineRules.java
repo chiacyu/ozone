@@ -34,7 +34,9 @@ import org.apache.hadoop.ozone.MiniOzoneCluster;
 import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -58,6 +60,8 @@ public class TestSCMSafeModeWithPipelineRules {
   private MiniOzoneCluster cluster;
   private OzoneConfiguration conf;
   private PipelineManager pipelineManager;
+  @TempDir
+  private File dir;
 
   public void setup(int numDatanodes) throws Exception {
     conf = new OzoneConfiguration();
@@ -78,6 +82,7 @@ public class TestSCMSafeModeWithPipelineRules {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(numDatanodes)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     StorageContainerManager scm = cluster.getStorageContainerManager();

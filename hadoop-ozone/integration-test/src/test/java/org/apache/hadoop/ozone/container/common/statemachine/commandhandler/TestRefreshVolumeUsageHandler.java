@@ -33,7 +33,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
@@ -53,6 +55,8 @@ public class TestRefreshVolumeUsageHandler {
 
   private MiniOzoneCluster cluster;
   private OzoneConfiguration conf;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -66,6 +70,7 @@ public class TestRefreshVolumeUsageHandler {
         0, StorageUnit.MB);
     conf.setBoolean(HddsConfigKeys.HDDS_SCM_SAFEMODE_PIPELINE_CREATION, false);
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(1).build();
     cluster.waitForClusterToBeReady();
     cluster.waitForPipelineTobeReady(ONE, 30000);

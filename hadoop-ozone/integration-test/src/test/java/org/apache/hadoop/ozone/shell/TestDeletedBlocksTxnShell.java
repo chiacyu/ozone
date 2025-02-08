@@ -82,6 +82,9 @@ public class TestDeletedBlocksTxnShell {
   @TempDir
   private Path tempDir;
 
+  @TempDir
+  private File dir;
+
   /**
    * Create a MiniOzoneHACluster for testing.
    *
@@ -98,6 +101,7 @@ public class TestDeletedBlocksTxnShell {
         .setSCMServiceId(scmServiceId)
         .setNumOfStorageContainerManagers(numOfSCMs)
         .setNumOfActiveSCMs(numOfSCMs)
+        .setPath(dir.getPath())
         .setNumOfOzoneManagers(1)
         .build();
     cluster.waitForClusterToBeReady();

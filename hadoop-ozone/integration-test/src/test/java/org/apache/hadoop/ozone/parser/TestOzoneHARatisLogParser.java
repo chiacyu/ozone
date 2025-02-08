@@ -37,6 +37,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,6 +61,8 @@ class TestOzoneHARatisLogParser {
   private final ByteArrayOutputStream out = new ByteArrayOutputStream();
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   void setup() throws Exception {
@@ -71,6 +74,7 @@ class TestOzoneHARatisLogParser {
         .setSCMServiceId(scmServiceId)
         .setNumOfOzoneManagers(3)
         .setNumOfStorageContainerManagers(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = OzoneClientFactory.getRpcClient(omServiceId, conf);

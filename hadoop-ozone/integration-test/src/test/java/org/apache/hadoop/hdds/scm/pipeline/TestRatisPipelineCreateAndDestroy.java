@@ -32,7 +32,9 @@ import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,6 +56,8 @@ public class TestRatisPipelineCreateAndDestroy {
   private MiniOzoneCluster cluster;
   private OzoneConfiguration conf = new OzoneConfiguration();
   private PipelineManager pipelineManager;
+  @TempDir
+  private File dir;
 
   public void init(int numDatanodes) throws Exception {
     conf.setInt(OZONE_DATANODE_PIPELINE_LIMIT, 2);
@@ -65,6 +69,7 @@ public class TestRatisPipelineCreateAndDestroy {
         TimeUnit.MILLISECONDS);
     cluster = MiniOzoneCluster.newBuilder(conf)
             .setNumDatanodes(numDatanodes)
+            .setPath(dir.getPath())
             .build();
     cluster.waitForClusterToBeReady();
     StorageContainerManager scm = cluster.getStorageContainerManager();

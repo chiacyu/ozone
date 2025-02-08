@@ -62,6 +62,8 @@ public class TestMiniOzoneCluster {
 
   private MiniOzoneCluster cluster;
   private static OzoneConfiguration conf;
+  @TempDir
+  private File dir;
 
   @BeforeAll
   static void setup(@TempDir File testDir) {
@@ -84,6 +86,7 @@ public class TestMiniOzoneCluster {
     final int numberOfNodes = 3;
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(numberOfNodes)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     List<HddsDatanodeService> datanodes = cluster.getHddsDatanodes();

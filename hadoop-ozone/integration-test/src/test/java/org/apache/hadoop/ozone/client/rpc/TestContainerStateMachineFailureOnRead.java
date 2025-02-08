@@ -64,6 +64,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Test to verify pipeline is closed on readStateMachine failure.
@@ -75,6 +76,8 @@ public class TestContainerStateMachineFailureOnRead {
   private String bucketName;
   private OzoneConfiguration conf;
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -116,6 +119,7 @@ public class TestContainerStateMachineFailureOnRead {
     conf.setQuietMode(false);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = OzoneClientFactory.getRpcClient(conf);

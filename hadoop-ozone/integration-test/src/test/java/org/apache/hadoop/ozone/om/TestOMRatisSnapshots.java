@@ -122,6 +122,8 @@ public class TestOMRatisSnapshots {
       BucketLayout.OBJECT_STORE;
   private static final String SNAPSHOT_NAME_PREFIX = "snapshot";
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniOzoneCluster for testing. The cluster initially has one
@@ -159,6 +161,7 @@ public class TestOMRatisSnapshots {
         .setOMServiceId("om-service-test1")
         .setNumOfOzoneManagers(numOfOMs)
         .setNumOfActiveOMs(2)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = OzoneClientFactory.getRpcClient(omServiceId, conf);

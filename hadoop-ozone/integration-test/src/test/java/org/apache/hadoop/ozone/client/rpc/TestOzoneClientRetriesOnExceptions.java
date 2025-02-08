@@ -16,6 +16,7 @@
  */
 package org.apache.hadoop.ozone.client.rpc;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests failure detection and handling in BlockOutputStream Class.
@@ -83,6 +85,8 @@ public class TestOzoneClientRetriesOnExceptions {
   private String bucketName;
   private String keyString;
   private XceiverClientManager xceiverClientManager;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -120,6 +124,7 @@ public class TestOzoneClientRetriesOnExceptions {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(5)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     //the easiest way to create an open container is creating a key

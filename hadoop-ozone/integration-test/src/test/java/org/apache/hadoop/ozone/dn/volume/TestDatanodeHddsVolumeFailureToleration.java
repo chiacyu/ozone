@@ -38,6 +38,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -67,6 +68,8 @@ public class TestDatanodeHddsVolumeFailureToleration {
   private MiniOzoneCluster cluster;
   private OzoneConfiguration ozoneConfig;
   private List<HddsDatanodeService> datanodes;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void init() throws Exception {
@@ -90,6 +93,7 @@ public class TestDatanodeHddsVolumeFailureToleration {
     dnConf.setFailedDataVolumesTolerated(1);
     ozoneConfig.setFromObject(dnConf);
     cluster = MiniOzoneCluster.newBuilder(ozoneConfig)
+        .setPath(dir.getPath())
         .setNumDatanodes(1)
         .setDatanodeFactory(UniformDatanodesFactory.newBuilder()
             .setNumDataVolumes(3)

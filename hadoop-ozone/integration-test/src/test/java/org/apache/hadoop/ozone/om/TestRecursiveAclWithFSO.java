@@ -40,7 +40,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
@@ -64,6 +66,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestRecursiveAclWithFSO {
 
   private MiniOzoneCluster cluster;
+  @TempDir
+  private File dir;
 
   private final UserGroupInformation adminUser =
       UserGroupInformation.createUserForTesting("om", new String[] {"ozone"});
@@ -309,7 +313,9 @@ public class TestRecursiveAclWithFSO {
 
     OMRequestTestUtils.configureFSOptimizedPaths(conf, true);
 
-    cluster = MiniOzoneCluster.newBuilder(conf).build();
+    cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
+        .build();
     cluster.waitForClusterToBeReady();
 
   }

@@ -48,9 +48,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -115,6 +117,8 @@ public class TestDecommissionAndMaintenance {
   private ContainerOperationClient scmClient;
 
   private static MiniOzoneClusterProvider clusterProvider;
+  @TempDir
+  private static File dir;
 
   @BeforeAll
   public static void init() {
@@ -150,6 +154,7 @@ public class TestDecommissionAndMaintenance {
     conf.setFromObject(replicationConf);
 
     MiniOzoneCluster.Builder builder = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(DATANODE_COUNT);
 
     clusterProvider = new MiniOzoneClusterProvider(builder, 9);

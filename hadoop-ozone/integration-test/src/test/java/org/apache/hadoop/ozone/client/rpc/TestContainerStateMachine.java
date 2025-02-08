@@ -65,6 +65,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests the containerStateMachine failure handling.
@@ -78,6 +79,8 @@ public class TestContainerStateMachine {
   private ObjectStore objectStore;
   private String volumeName;
   private String bucketName;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -112,6 +115,7 @@ public class TestContainerStateMachine {
         MiniOzoneCluster.newBuilder(conf).setNumDatanodes(1)
             .setCertificateClient(new CertificateClientTestImpl(conf))
             .setSecretKeyClient(new SecretKeyTestClient())
+            .setPath(dir.getPath())
             .build();
     cluster.setWaitForClusterToBeReadyTimeout(300000);
     cluster.waitForClusterToBeReady();

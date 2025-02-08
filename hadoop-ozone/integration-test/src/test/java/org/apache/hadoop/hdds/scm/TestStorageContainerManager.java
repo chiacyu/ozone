@@ -160,6 +160,8 @@ public class TestStorageContainerManager {
   private static final String LOCALHOST_IP = "127.0.0.1";
   private static final Logger LOG = LoggerFactory.getLogger(
       TestStorageContainerManager.class);
+  @TempDir
+  private File dir;
 
   /** This runs most test cases in a single cluster. */
   @Test
@@ -170,7 +172,7 @@ public class TestStorageContainerManager {
     Path scmPath = tempDir.resolve("scm-meta");
     conf.set(HddsConfigKeys.OZONE_METADATA_DIRS, scmPath.toString());
 
-    try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf).setNumDatanodes(1).build()) {
+    try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf).setPath(dir.getPath()).setNumDatanodes(1).build()) {
       cluster.waitForClusterToBeReady();
 
       // non-destructive test cases

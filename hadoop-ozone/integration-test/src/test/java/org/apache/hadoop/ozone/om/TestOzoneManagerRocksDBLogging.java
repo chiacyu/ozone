@@ -19,6 +19,7 @@
 
 package org.apache.hadoop.ozone.om;
 
+import java.io.File;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.hadoop.hdds.conf.OzoneConfiguration;
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,6 +44,8 @@ public class TestOzoneManagerRocksDBLogging {
   private MiniOzoneCluster cluster = null;
   private OzoneConfiguration conf;
   private RocksDBConfiguration dbConf;
+  @TempDir
+  private File dir;
 
   private static GenericTestUtils.LogCapturer logCapturer =
       GenericTestUtils.LogCapturer.captureLogs(DBStoreBuilder.ROCKS_DB_LOGGER);
@@ -52,6 +56,7 @@ public class TestOzoneManagerRocksDBLogging {
     dbConf = conf.getObject(RocksDBConfiguration.class);
     enableRocksDbLogging(false);
     cluster =  MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .withoutDatanodes().build();
     cluster.waitForClusterToBeReady();
   }

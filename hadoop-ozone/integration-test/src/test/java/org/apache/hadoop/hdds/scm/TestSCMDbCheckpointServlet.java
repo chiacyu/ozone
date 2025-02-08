@@ -25,6 +25,7 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -85,6 +86,8 @@ public class TestSCMDbCheckpointServlet {
   private String method;
   private SCMDBCheckpointServlet scmDbCheckpointServletMock;
   private ServletContext servletContextMock;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -98,6 +101,7 @@ public class TestSCMDbCheckpointServlet {
     conf = new OzoneConfiguration();
     conf.setBoolean(OZONE_ACL_ENABLED, true);
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     scm = cluster.getStorageContainerManager();

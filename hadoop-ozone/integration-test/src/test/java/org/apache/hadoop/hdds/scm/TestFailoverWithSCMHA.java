@@ -40,8 +40,10 @@ import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.event.Level;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -61,6 +63,8 @@ public class TestFailoverWithSCMHA {
   private String scmServiceId;
   private int numOfOMs = 1;
   private int numOfSCMs = 3;
+  @TempDir
+  private File dir;
 
   private static final long SNAPSHOT_THRESHOLD = 5;
 
@@ -81,6 +85,7 @@ public class TestFailoverWithSCMHA {
         .setOMServiceId(omServiceId)
         .setSCMServiceId(scmServiceId).setNumOfOzoneManagers(numOfOMs)
         .setNumOfStorageContainerManagers(numOfSCMs).setNumOfActiveSCMs(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
   }

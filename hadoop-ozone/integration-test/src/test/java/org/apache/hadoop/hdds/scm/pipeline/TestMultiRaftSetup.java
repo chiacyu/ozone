@@ -34,7 +34,9 @@ import org.apache.hadoop.ozone.MiniOzoneCluster;
 
 import org.apache.ozone.test.LambdaTestUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Collection;
@@ -51,6 +53,8 @@ public class  TestMultiRaftSetup {
   private StorageContainerManager scm;
   private NodeManager nodeManager;
   private PipelineManager pipelineManager;
+  @TempDir
+  private File dir;
 
   private long pipelineDestroyTimeoutInMillis;
   private static final ReplicationConfig RATIS_THREE =
@@ -58,8 +62,10 @@ public class  TestMultiRaftSetup {
           HddsProtos.ReplicationFactor.THREE);
 
   public void init(int dnCount, OzoneConfiguration conf) throws Exception {
-    cluster =
-        MiniOzoneCluster.newBuilder(conf).setNumDatanodes(dnCount).build();
+    cluster = MiniOzoneCluster.newBuilder(conf)
+            .setNumDatanodes(dnCount)
+            .setPath(dir.getPath())
+            .build();
     conf.setTimeDuration(HddsConfigKeys.HDDS_HEARTBEAT_INTERVAL, 1000,
         TimeUnit.MILLISECONDS);
     pipelineDestroyTimeoutInMillis = 1000;

@@ -59,6 +59,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +97,8 @@ public class TestSnapshotBackgroundServices {
   private OzoneBucket ozoneBucket;
   private String volumeName;
   private String bucketName;
+  @TempDir
+  private File dir;
 
   private static final long SNAPSHOT_THRESHOLD = 50;
   private static final int LOG_PURGE_GAP = 50;
@@ -160,6 +163,7 @@ public class TestSnapshotBackgroundServices {
         .setOMServiceId("om-service-test1")
         .setNumOfOzoneManagers(numOfOMs)
         .setNumOfActiveOMs(2)
+        .setPath(dir.getPath())
         .build();
     if ("testBackupCompactionFilesPruningBackgroundService"
         .equals(testInfo.getDisplayName())) {

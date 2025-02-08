@@ -58,6 +58,8 @@ public class TestHadoopNestedDirGenerator {
   private static final Logger LOG =
           LoggerFactory.getLogger(TestHadoopNestedDirGenerator.class);
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
     public void setup() {
@@ -86,7 +88,10 @@ public class TestHadoopNestedDirGenerator {
     conf = new OzoneConfiguration();
     conf.set(OMConfigKeys.OZONE_DEFAULT_BUCKET_LAYOUT,
         OMConfigKeys.OZONE_BUCKET_LAYOUT_FILE_SYSTEM_OPTIMIZED);
-    cluster = MiniOzoneCluster.newBuilder(conf).setNumDatanodes(5).build();
+    cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
+        .setNumDatanodes(5)
+        .build();
     cluster.waitForClusterToBeReady();
     cluster.waitTobeOutOfSafeMode();
     client = OzoneClientFactory.getRpcClient(conf);

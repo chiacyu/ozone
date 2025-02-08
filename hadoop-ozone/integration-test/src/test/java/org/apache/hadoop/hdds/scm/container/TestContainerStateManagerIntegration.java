@@ -16,6 +16,7 @@
  */
 package org.apache.hadoop.hdds.scm.container;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +40,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.apache.ozone.test.tag.Flaky;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +72,8 @@ public class TestContainerStateManagerIntegration {
   private ContainerManager containerManager;
   private ContainerStateManager containerStateManager;
   private int numContainerPerOwnerInPipeline;
+  @TempDir
+  private File dir;
 
 
   @BeforeEach
@@ -79,7 +83,10 @@ public class TestContainerStateManagerIntegration {
     numContainerPerOwnerInPipeline =
         conf.getInt(ScmConfigKeys.OZONE_SCM_PIPELINE_OWNER_CONTAINER_COUNT,
             ScmConfigKeys.OZONE_SCM_PIPELINE_OWNER_CONTAINER_COUNT_DEFAULT);
-    cluster = MiniOzoneCluster.newBuilder(conf).setNumDatanodes(3).build();
+    cluster = MiniOzoneCluster.newBuilder(conf)
+        .setNumDatanodes(3)
+        .setPath(dir.getPath())
+        .build();
     cluster.waitForClusterToBeReady();
     cluster.waitTobeOutOfSafeMode();
     scm = cluster.getStorageContainerManager();

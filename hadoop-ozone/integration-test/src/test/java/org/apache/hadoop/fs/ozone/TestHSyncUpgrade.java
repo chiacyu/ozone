@@ -50,8 +50,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.event.Level;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -85,6 +87,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestHSyncUpgrade {
   private MiniOzoneCluster cluster;
   private OzoneBucket bucket;
+  @TempDir
+  private File dir;
 
   private final OzoneConfiguration conf = new OzoneConfiguration();
   private OzoneClient client;
@@ -135,6 +139,7 @@ public class TestHSyncUpgrade {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(5)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

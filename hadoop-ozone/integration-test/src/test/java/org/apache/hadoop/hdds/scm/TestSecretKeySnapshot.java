@@ -124,7 +124,8 @@ public final class TestSecretKeySnapshot {
         .setNumOfStorageContainerManagers(3)
         .setNumOfActiveSCMs(2)
         .setNumOfOzoneManagers(1)
-        .setNumDatanodes(1);
+        .setNumDatanodes(1)
+        .setPath(workDir.getPath());
 
     cluster = builder.build();
     cluster.waitForClusterToBeReady();

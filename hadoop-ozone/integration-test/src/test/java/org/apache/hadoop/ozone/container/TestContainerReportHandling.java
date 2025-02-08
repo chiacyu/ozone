@@ -37,7 +37,9 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyLocationInfo;
 import org.apache.hadoop.ozone.om.helpers.OmKeyLocationInfoGroup;
 import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
@@ -64,6 +66,8 @@ public class TestContainerReportHandling {
   private static final String VOLUME = "vol1";
   private static final String BUCKET = "bucket1";
   private static final String KEY = "key1";
+  @TempDir
+  private static File dir;
 
   /**
    * Tests that a DELETING container moves to the CLOSED state if a non-empty CLOSED replica is reported. To do this,
@@ -122,6 +126,7 @@ public class TestContainerReportHandling {
   private static MiniOzoneCluster newCluster(OzoneConfiguration conf)
       throws IOException {
     return MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(3)
         .build();
   }

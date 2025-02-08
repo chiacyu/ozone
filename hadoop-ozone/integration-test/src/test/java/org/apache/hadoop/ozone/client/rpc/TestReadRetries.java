@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.client.rpc;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ import org.apache.hadoop.ozone.om.helpers.OzoneFileStatus;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.apache.hadoop.hdds.protocol.proto.HddsProtos.ReplicationFactor.THREE;
 import static org.apache.hadoop.ozone.client.rpc.TestOzoneRpcClientWithKeyLatestVersion.assertKeyContent;
@@ -56,6 +58,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Timeout(300)
 class TestReadRetries {
+  @TempDir
+  private static File dir;
 
   /**
    * Test read retries from multiple nodes in the pipeline.
@@ -143,6 +147,7 @@ class TestReadRetries {
   private static MiniOzoneCluster newCluster(OzoneConfiguration conf)
       throws IOException {
     return MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(3)
         .build();
   }

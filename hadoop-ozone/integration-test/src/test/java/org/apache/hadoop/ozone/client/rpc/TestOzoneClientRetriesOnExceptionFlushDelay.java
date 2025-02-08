@@ -16,6 +16,7 @@
  */
 package org.apache.hadoop.ozone.client.rpc;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
@@ -55,6 +56,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests failure detection and handling in BlockOutputStream Class by set
@@ -74,6 +76,8 @@ public class TestOzoneClientRetriesOnExceptionFlushDelay {
   private String bucketName;
   private String keyString;
   private XceiverClientManager xceiverClientManager;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -108,6 +112,7 @@ public class TestOzoneClientRetriesOnExceptionFlushDelay {
         .applyTo(conf);
 
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(5)
         .build();
     cluster.waitForClusterToBeReady();

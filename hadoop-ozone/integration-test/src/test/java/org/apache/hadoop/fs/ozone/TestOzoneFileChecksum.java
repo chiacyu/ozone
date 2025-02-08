@@ -39,10 +39,12 @@ import org.apache.hadoop.util.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -90,6 +92,8 @@ public class TestOzoneFileChecksum {
   private BasicRootedOzoneClientAdapterImpl adapter;
   private String rootPath;
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   void setup() throws IOException,
@@ -99,6 +103,7 @@ public class TestOzoneFileChecksum {
     conf.setStorageSize(OZONE_SCM_BLOCK_SIZE, 2 * 1024 * 1024, StorageUnit.BYTES);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(5)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

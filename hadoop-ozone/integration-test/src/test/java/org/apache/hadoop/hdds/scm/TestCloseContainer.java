@@ -34,7 +34,9 @@ import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
@@ -65,6 +67,8 @@ public class TestCloseContainer {
   private OzoneBucket bucket;
   private MiniOzoneCluster cluster;
   private OzoneClient client;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setUp() throws Exception {
@@ -88,6 +92,7 @@ public class TestCloseContainer {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(numOfDatanodes)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();

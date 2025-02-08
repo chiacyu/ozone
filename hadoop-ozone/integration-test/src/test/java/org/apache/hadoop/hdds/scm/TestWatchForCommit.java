@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.hdds.scm;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Duration;
@@ -71,6 +72,7 @@ import org.apache.ratis.protocol.exceptions.GroupMismatchException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -93,6 +95,8 @@ public class TestWatchForCommit {
   private int blockSize;
   private StorageContainerLocationProtocolClientSideTranslatorPB
       storageContainerLocationClient;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -148,6 +152,7 @@ public class TestWatchForCommit {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(9)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     cluster.waitForPipelineTobeReady(HddsProtos.ReplicationFactor.THREE, 60000);

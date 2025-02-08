@@ -35,11 +35,14 @@ import org.apache.hadoop.ozone.recon.api.types.KeysResponse;
 import org.apache.hadoop.ozone.recon.persistence.ContainerHealthSchemaManager;
 import org.apache.hadoop.ozone.recon.recovery.ReconOMMetadataManager;
 import org.apache.hadoop.ozone.recon.scm.ReconContainerManager;
+
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import org.apache.hadoop.ozone.recon.spi.impl.OzoneManagerServiceProviderImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -57,6 +60,8 @@ public class TestReconContainerEndpoint {
   private MiniOzoneCluster cluster;
   private OzoneClient client;
   private ObjectStore store;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void init() throws Exception {
@@ -65,6 +70,7 @@ public class TestReconContainerEndpoint {
         OMConfigKeys.OZONE_BUCKET_LAYOUT_FILE_SYSTEM_OPTIMIZED);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .includeRecon(true)
         .build();
     cluster.waitForClusterToBeReady();

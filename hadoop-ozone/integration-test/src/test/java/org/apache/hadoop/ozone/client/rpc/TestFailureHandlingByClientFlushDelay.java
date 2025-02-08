@@ -51,7 +51,9 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -84,6 +86,8 @@ public class TestFailureHandlingByClientFlushDelay {
   private String volumeName;
   private String bucketName;
   private String keyString;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -140,6 +144,7 @@ public class TestFailureHandlingByClientFlushDelay {
         .applyTo(conf);
 
     cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
         .setNumDatanodes(10)
         .build();
     cluster.waitForClusterToBeReady();

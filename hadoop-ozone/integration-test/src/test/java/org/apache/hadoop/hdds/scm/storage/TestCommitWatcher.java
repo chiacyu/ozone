@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.hdds.scm.storage;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Class to test CommitWatcher functionality.
@@ -91,6 +93,8 @@ public class TestCommitWatcher {
   private String keyString;
   private StorageContainerLocationProtocolClientSideTranslatorPB
       storageContainerLocationClient;
+  @TempDir
+  private File dir;
 
   /**
    * Create a MiniDFSCluster for testing.
@@ -144,6 +148,7 @@ public class TestCommitWatcher {
         StorageUnit.MB);
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(5)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     //the easiest way to create an open container is creating a key

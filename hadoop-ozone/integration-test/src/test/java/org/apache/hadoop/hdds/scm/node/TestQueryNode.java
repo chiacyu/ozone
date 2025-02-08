@@ -27,7 +27,9 @@ import org.apache.ozone.test.GenericTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -58,6 +60,8 @@ public class TestQueryNode {
   private static int numOfDatanodes = 5;
   private MiniOzoneCluster cluster;
   private ContainerOperationClient scmClient;
+  @TempDir
+  private File dir;
 
   @BeforeEach
   public void setUp() throws Exception {
@@ -74,6 +78,7 @@ public class TestQueryNode {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(numOfDatanodes)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     scmClient = new ContainerOperationClient(conf);
