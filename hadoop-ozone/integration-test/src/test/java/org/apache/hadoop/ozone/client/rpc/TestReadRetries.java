@@ -59,7 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Timeout(300)
 class TestReadRetries {
   @TempDir
-  private static File dir;
+  private static File tmpDir;
 
   /**
    * Test read retries from multiple nodes in the pipeline.
@@ -147,7 +147,7 @@ class TestReadRetries {
   private static MiniOzoneCluster newCluster(OzoneConfiguration conf)
       throws IOException {
     return MiniOzoneCluster.newBuilder(conf)
-        .setPath(dir.getPath())
+        .setPath(tmpDir.getPath())
         .setNumDatanodes(3)
         .build();
   }

@@ -172,7 +172,9 @@ public class TestStorageContainerManager {
     Path scmPath = tempDir.resolve("scm-meta");
     conf.set(HddsConfigKeys.OZONE_METADATA_DIRS, scmPath.toString());
 
-    try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf).setPath(dir.getPath()).setNumDatanodes(1).build()) {
+    try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf)
+        .setPath(dir.getPath())
+        .setNumDatanodes(1).build()) {
       cluster.waitForClusterToBeReady();
 
       // non-destructive test cases

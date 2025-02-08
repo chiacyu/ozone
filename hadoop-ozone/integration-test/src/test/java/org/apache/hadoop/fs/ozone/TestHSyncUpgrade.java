@@ -88,7 +88,7 @@ public class TestHSyncUpgrade {
   private MiniOzoneCluster cluster;
   private OzoneBucket bucket;
   @TempDir
-  private File dir;
+  private File tmpDir;
 
   private final OzoneConfiguration conf = new OzoneConfiguration();
   private OzoneClient client;
@@ -139,7 +139,7 @@ public class TestHSyncUpgrade {
 
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(5)
-        .setPath(dir.getPath())
+        .setPath(tmpDir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     client = cluster.newClient();
