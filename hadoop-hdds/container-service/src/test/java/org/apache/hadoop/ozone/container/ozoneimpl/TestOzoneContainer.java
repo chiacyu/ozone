@@ -73,6 +73,9 @@ public class TestOzoneContainer {
   @TempDir
   private Path folder;
 
+  @TempDir
+  private File dir;
+
   private OzoneConfiguration conf;
   private String clusterId = UUID.randomUUID().toString();
   private MutableVolumeSet volumeSet;

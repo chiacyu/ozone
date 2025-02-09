@@ -430,6 +430,7 @@ public class TestStorageContainerManager {
 
     try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(1)
+        .setPath(dir.getPath())
         .build()) {
       cluster.waitForClusterToBeReady();
       cluster.waitForPipelineTobeReady(HddsProtos.ReplicationFactor.ONE, 30000);
@@ -682,6 +683,7 @@ public class TestStorageContainerManager {
 
     try (MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(1)
+        .setPath(dir.getPath())
         .build()) {
       cluster.waitForClusterToBeReady();
       cluster.waitForPipelineTobeReady(HddsProtos.ReplicationFactor.ONE, 30000);

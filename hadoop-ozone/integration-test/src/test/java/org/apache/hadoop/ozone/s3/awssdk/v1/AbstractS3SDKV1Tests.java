@@ -237,12 +237,12 @@ public abstract class AbstractS3SDKV1Tests extends OzoneTestBase {
 
     s3Client.createBucket(createBucketRequest);
 
-    //assertEquals(aclList, s3Client.getBucketAcl(bucketName));
+    assertEquals(aclList, s3Client.getBucketAcl(bucketName));
 
     aclList.grantPermission(grantee, Permission.Write);
     s3Client.setBucketAcl(bucketName, aclList);
 
-    //assertEquals(aclList, s3Client.getBucketAcl(bucketName));
+    assertEquals(aclList, s3Client.getBucketAcl(bucketName));
   }
 
   @Test

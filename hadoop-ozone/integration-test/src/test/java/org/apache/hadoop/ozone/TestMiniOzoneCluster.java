@@ -194,6 +194,7 @@ public class TestMiniOzoneCluster {
   public void testKeepPortsWhenRestartDN() throws Exception {
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(1)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
     DatanodeDetails before =
@@ -215,6 +216,7 @@ public class TestMiniOzoneCluster {
     // Start a cluster with 3 DN
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(3)
+        .setPath(dir.getPath())
         .build();
     cluster.waitForClusterToBeReady();
 
@@ -261,6 +263,7 @@ public class TestMiniOzoneCluster {
     String reservedSpace = "1B";
     cluster = MiniOzoneCluster.newBuilder(conf)
         .setNumDatanodes(1)
+        .setPath(dir.getPath())
         .setDatanodeFactory(UniformDatanodesFactory.newBuilder()
             .setNumDataVolumes(3)
             .setReservedSpace(reservedSpace)

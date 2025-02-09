@@ -346,6 +346,7 @@ public class TestStorageContainerManagerHA {
     MiniOzoneHAClusterImpl.Builder haMiniClusterBuilder = MiniOzoneCluster.newHABuilder(conf)
         .setSCMServiceId("scm-service-id")
         .setOMServiceId("om-service-id")
+        .setPath(dir.getPath())
         .setNumOfActiveOMs(0)
         .setNumOfStorageContainerManagers(scmInstancesCount)
         .setNumOfActiveSCMs(1);

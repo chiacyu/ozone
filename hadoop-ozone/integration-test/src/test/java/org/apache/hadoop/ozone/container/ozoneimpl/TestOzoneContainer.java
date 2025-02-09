@@ -147,6 +147,7 @@ public class TestOzoneContainer {
       // Start ozone container Via Datanode create.
       cluster = MiniOzoneCluster.newBuilder(conf)
           .setNumDatanodes(1)
+          .setPath(tempDir.toString())
           .build();
       cluster.waitForClusterToBeReady();
 
@@ -171,6 +172,7 @@ public class TestOzoneContainer {
 
       // Start ozone container Via Datanode create.
       cluster = MiniOzoneCluster.newBuilder(conf)
+          .setPath(tempDir.toString())
           .setNumDatanodes(1)
           .build();
       cluster.waitForClusterToBeReady();
@@ -464,6 +466,7 @@ public class TestOzoneContainer {
       conf.set(HDDS_DATANODE_DIR_KEY, hddsNodeDir.getPath());
       cluster = MiniOzoneCluster.newBuilder(conf)
           .setNumDatanodes(1)
+          .setPath(tempDir.toString())
           .build();
       cluster.waitForClusterToBeReady();
 
@@ -545,6 +548,7 @@ public class TestOzoneContainer {
       conf.set(HDDS_DATANODE_DIR_KEY, hddsNodeDir.getPath());
       cluster = MiniOzoneCluster.newBuilder(conf)
           .setNumDatanodes(1)
+          .setPath(tempDir.toString())
           .build();
       cluster.waitForClusterToBeReady();
 
@@ -643,6 +647,7 @@ public class TestOzoneContainer {
       conf.set(HDDS_DATANODE_DIR_KEY, hddsNodeDir.getPath());
       cluster = MiniOzoneCluster.newBuilder(conf)
           .setNumDatanodes(1)
+          .setPath(tempDir.toString())
           .build();
       cluster.waitForClusterToBeReady();
       long containerID = ContainerTestHelper.getTestContainerID();

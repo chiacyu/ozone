@@ -24,7 +24,9 @@ import org.apache.hadoop.ozone.MiniOzoneCluster;
 import org.apache.hadoop.security.AccessControlException;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.PrivilegedExceptionAction;
 
@@ -33,6 +35,9 @@ import java.security.PrivilegedExceptionAction;
  */
 public class TestOzoneClientFactory {
 
+  @TempDir
+  private File dir;
+
   @Test
   public void testRemoteException() {
 
@@ -40,6 +45,7 @@ public class TestOzoneClientFactory {
     conf.setInt(OZONE_SCM_RATIS_PIPELINE_LIMIT, 10);
     Exception e = assertThrows(Exception.class, () -> {
       MiniOzoneCluster cluster = MiniOzoneCluster.newBuilder(conf)
+          .setPath(dir.getPath())
           .setNumDatanodes(3)
           .build();
 

@@ -140,6 +140,7 @@ public class MiniOzoneClusterImpl implements MiniOzoneCluster {
   private CertificateClient caClient;
   private final Set<AutoCloseable> clients = ConcurrentHashMap.newKeySet();
   private SecretKeyClient secretKeyClient;
+  private String path;
 
   /**
    * Creates a new MiniOzoneCluster with Recon.
@@ -466,7 +467,7 @@ public class MiniOzoneClusterImpl implements MiniOzoneCluster {
       LOG.info("Shutting down the Mini Ozone Cluster");
       CodecTestUtil.gc();
       IOUtils.closeQuietly(clients);
-      final File baseDir = new File(getBaseDir());
+      final File baseDir = new File(getPath());
       stop();
       FileUtils.deleteDirectory(baseDir);
       ContainerCache.getInstance(conf).shutdownCache();
@@ -551,6 +552,14 @@ public class MiniOzoneClusterImpl implements MiniOzoneCluster {
 
   private void setSecretKeyClient(SecretKeyClient client) {
     this.secretKeyClient = client;
+  }
+
+  private void setPath(String path) {
+    this.path = path;
+  }
+
+  private String getPath() {
+    return path;
   }
 
   private static void stopDatanodes(
@@ -645,6 +654,7 @@ public class MiniOzoneClusterImpl implements MiniOzoneCluster {
 
         cluster.setCAClient(certClient);
         cluster.setSecretKeyClient(secretKeyClient);
+        cluster.setPath(path);
         if (startDataNodes) {
           cluster.startHddsDatanodes();
         }
