@@ -61,6 +61,7 @@ import org.apache.hadoop.ozone.recon.scm.ReconStorageConfig;
 import org.apache.hadoop.ozone.recon.security.ReconCertificateClient;
 import org.apache.hadoop.ozone.recon.spi.StorageContainerServiceProvider;
 import org.apache.hadoop.security.SecurityUtil;
+import org.apache.hadoop.util.Time;
 import org.apache.ratis.proto.RaftProtos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,7 +180,7 @@ public class StorageContainerServiceProviderImpl
   @Override
   public DBCheckpoint getSCMDBSnapshot() {
     String snapshotFileName = RECON_SCM_SNAPSHOT_DB + "_" +
-        System.currentTimeMillis();
+        Time.monotonicNow();
     File targetFile = new File(scmSnapshotDBParentDir, snapshotFileName +
         ".tar");
     try {

@@ -42,6 +42,7 @@ import org.apache.hadoop.hdds.utils.db.managed.ManagedWriteBatch;
 import org.apache.hadoop.hdds.utils.db.managed.ManagedWriteOptions;
 import org.apache.hadoop.ozone.om.OzoneManager;
 import org.apache.hadoop.ozone.om.helpers.SnapshotDiffJob;
+import org.apache.hadoop.util.Time;
 import org.rocksdb.ColumnFamilyHandle;
 import org.rocksdb.RocksDBException;
 
@@ -150,7 +151,7 @@ public class SnapshotDiffCleanupService extends BackgroundService {
              new ManagedRocksIterator(db.get().newIterator(snapDiffJobCfh));
          ManagedWriteBatch writeBatch = new ManagedWriteBatch();
          ManagedWriteOptions writeOptions = new ManagedWriteOptions()) {
-      long currentTimeMillis = System.currentTimeMillis();
+      long currentTimeMillis = Time.monotonicNow();
       long purgeJobCount = 0;
       iterator.get().seekToFirst();
 

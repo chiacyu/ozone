@@ -346,7 +346,7 @@ public class TestS3MultipartResponse {
             .setVolume(volumeName)
             .setAdminName("admin")
             .setOwnerName("owner")
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .build();
 
     omMetadataManager.getVolumeTable().addCacheEntry(
@@ -359,7 +359,7 @@ public class TestS3MultipartResponse {
     final OmBucketInfo omBucketInfo = OmBucketInfo.newBuilder()
             .setVolumeName(volumeName)
             .setBucketName(bucketName)
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .setStorageType(StorageType.DISK)
             .setIsVersionEnabled(false)
             .build();

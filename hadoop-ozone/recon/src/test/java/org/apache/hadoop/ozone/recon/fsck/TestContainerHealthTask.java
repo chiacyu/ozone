@@ -66,6 +66,7 @@ import org.apache.hadoop.ozone.recon.spi.StorageContainerServiceProvider;
 import org.apache.hadoop.ozone.recon.tasks.ReconTaskConfig;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdater;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdaterManager;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.ContainerSchemaDefinition;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
 import org.apache.ozone.recon.schema.generated.tables.daos.UnhealthyContainersDao;
@@ -181,7 +182,7 @@ public class TestContainerHealthTask extends AbstractReconSqlDBTest {
     List<UnhealthyContainers> all = unHealthyContainersTableHandle.findAll();
     assertThat(all).isEmpty();
 
-    long currentTime = System.currentTimeMillis();
+    long currentTime = Time.monotonicNow();
     ReconTaskStatusDao reconTaskStatusDao = getDao(ReconTaskStatusDao.class);
     ReconTaskConfig reconTaskConfig = new ReconTaskConfig();
     reconTaskConfig.setMissingContainerTaskInterval(Duration.ofSeconds(5));
@@ -353,7 +354,7 @@ public class TestContainerHealthTask extends AbstractReconSqlDBTest {
     List<UnhealthyContainers> all = unHealthyContainersTableHandle.findAll();
     assertThat(all).isEmpty();
 
-    long currentTime = System.currentTimeMillis();
+    long currentTime = Time.monotonicNow();
     ReconTaskStatusDao reconTaskStatusDao = getDao(ReconTaskStatusDao.class);
     ReconTaskConfig reconTaskConfig = new ReconTaskConfig();
     reconTaskConfig.setMissingContainerTaskInterval(Duration.ofSeconds(2));
@@ -435,7 +436,7 @@ public class TestContainerHealthTask extends AbstractReconSqlDBTest {
       }
 
       unhealthyContainer.setContainerState(state.name());
-      unhealthyContainer.setInStateSince(System.currentTimeMillis());
+      unhealthyContainer.setInStateSince(Time.monotonicNow());
 
       // Try inserting the record and catch any exception that occurs
       Exception exception = null;
@@ -523,7 +524,7 @@ public class TestContainerHealthTask extends AbstractReconSqlDBTest {
     container1.setExpectedReplicaCount(3);
     container1.setActualReplicaCount(0);
     container1.setReplicaDelta(3);
-    container1.setInStateSince(System.currentTimeMillis());
+    container1.setInStateSince(Time.monotonicNow());
 
     // Create and set up the second UnhealthyContainer for an EMPTY_MISSING container
     UnhealthyContainers container2 = new UnhealthyContainers();
@@ -532,7 +533,7 @@ public class TestContainerHealthTask extends AbstractReconSqlDBTest {
     container2.setExpectedReplicaCount(3);
     container2.setActualReplicaCount(0);
     container2.setReplicaDelta(3);
-    container2.setInStateSince(System.currentTimeMillis());
+    container2.setInStateSince(Time.monotonicNow());
 
     unHealthyContainersTableHandle.insert(container1);
     unHealthyContainersTableHandle.insert(container2);

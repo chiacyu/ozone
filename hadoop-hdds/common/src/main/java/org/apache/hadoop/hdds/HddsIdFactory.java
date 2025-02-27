@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.hdds;
 
+import org.apache.hadoop.util.Time;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -27,7 +28,7 @@ public final class HddsIdFactory {
   }
 
   private static final AtomicLong LONG_COUNTER = new AtomicLong(
-      System.currentTimeMillis());
+      Time.monotonicNow());
 
   /**
    * Returns an incrementing long. This class doesn't

@@ -86,6 +86,7 @@ import org.apache.hadoop.ozone.recon.tasks.ContainerKeyMapperTask;
 import org.apache.hadoop.ozone.recon.tasks.NSSummaryTaskWithFSO;
 import org.apache.hadoop.ozone.recon.tasks.NSSummaryTaskWithLegacy;
 import org.apache.hadoop.ozone.recon.tasks.NSSummaryTaskWithOBS;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.GlobalStatsDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.GlobalStats;
 import org.junit.jupiter.api.BeforeEach;
@@ -906,7 +907,7 @@ public class TestOmDBInsightEndPoint extends AbstractReconSqlDBTest {
 
   @Test
   public void testKeyCountsForValidAndInvalidKeyPrefix() {
-    Timestamp now = new Timestamp(System.currentTimeMillis());
+    Timestamp now = new Timestamp(Time.monotonicNow());
     GlobalStatsDao statsDao = omdbInsightEndpoint.getDao();
 
     // Insert valid key count with valid key prefix
@@ -968,7 +969,7 @@ public class TestOmDBInsightEndPoint extends AbstractReconSqlDBTest {
 
   @Test
   public void testKeysSummaryAttribute() {
-    Timestamp now = new Timestamp(System.currentTimeMillis());
+    Timestamp now = new Timestamp(Time.monotonicNow());
     GlobalStatsDao statsDao = omdbInsightEndpoint.getDao();
     // Insert records for replicated and unreplicated data sizes
     insertGlobalStatsRecords(statsDao, now, "openFileTableReplicatedDataSize",

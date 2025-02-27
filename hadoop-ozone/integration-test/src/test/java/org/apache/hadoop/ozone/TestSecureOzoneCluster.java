@@ -159,6 +159,7 @@ import org.apache.hadoop.security.authentication.client.AuthenticationException;
 import org.apache.hadoop.security.ssl.KeyStoreTestUtil;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.util.ExitUtil;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.test.GenericTestUtils;
 import org.apache.ozone.test.GenericTestUtils.LogCapturer;
 import org.apache.ozone.test.tag.Flaky;
@@ -692,7 +693,7 @@ final class TestSecureOzoneCluster {
       OzoneTokenIdentifier tokenId = OzoneTokenIdentifier.readProtoBuf(
           token.getIdentifier());
       tokenId.setRenewer(new Text("om"));
-      tokenId.setMaxDate(System.currentTimeMillis() * 2);
+      tokenId.setMaxDate(Time.monotonicNow() * 2);
       Token<OzoneTokenIdentifier> tamperedToken = new Token<>(
           tokenId.getBytes(), token2.getPassword(), token2.getKind(),
           token2.getService());

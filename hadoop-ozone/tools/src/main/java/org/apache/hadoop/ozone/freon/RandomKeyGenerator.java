@@ -250,7 +250,7 @@ public final class RandomKeyGenerator implements Callable<Void>, FreonSubcommand
 
   public void init(OzoneConfiguration configuration) throws IOException {
     startTime = System.nanoTime();
-    jobStartTime = System.currentTimeMillis();
+    jobStartTime = Time.monotonicNow();
     volumeCreationTime = new AtomicLong();
     bucketCreationTime = new AtomicLong();
     keyCreationTime = new AtomicLong();

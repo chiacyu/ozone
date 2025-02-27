@@ -18,6 +18,7 @@
 package org.apache.hadoop.ozone.recon.tasks.updater;
 
 import com.google.common.annotations.VisibleForTesting;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.ReconTaskStatus;
 import org.jooq.exception.DataAccessException;
@@ -82,7 +83,7 @@ public class ReconTaskStatusUpdater {
   public void recordRunStart() {
     try {
       this.reconTaskStatus.setIsCurrentTaskRunning(1);
-      this.reconTaskStatus.setLastUpdatedTimestamp(System.currentTimeMillis());
+      this.reconTaskStatus.setLastUpdatedTimestamp(Time.monotonicNow());
       updateDetails();
     } catch (DataAccessException e) {
       LOG.error("Failed to update table for start of task: {}", this.reconTaskStatus.getTaskName());
@@ -99,7 +100,7 @@ public class ReconTaskStatusUpdater {
   public void recordRunCompletion() {
     try {
       this.reconTaskStatus.setIsCurrentTaskRunning(0);
-      this.reconTaskStatus.setLastUpdatedTimestamp(System.currentTimeMillis());
+      this.reconTaskStatus.setLastUpdatedTimestamp(Time.monotonicNow());
       updateDetails();
     } catch (DataAccessException e) {
       LOG.error("Failed to update table for task: {}", this.reconTaskStatus.getTaskName());

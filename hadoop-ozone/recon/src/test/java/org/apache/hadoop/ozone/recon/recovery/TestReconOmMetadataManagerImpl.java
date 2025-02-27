@@ -40,6 +40,7 @@ import org.apache.hadoop.ozone.om.helpers.OmBucketInfo;
 import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.apache.hadoop.ozone.om.helpers.OmVolumeArgs;
 import org.apache.hadoop.ozone.recon.ReconUtils;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -61,7 +62,7 @@ public class TestReconOmMetadataManagerImpl {
         .getCheckpoint(true);
     File snapshotFile = new File(
         checkpoint.getCheckpointLocation().getParent() + "/" +
-            "om.snapshot.db_" + System.currentTimeMillis());
+            "om.snapshot.db_" + Time.monotonicNow());
     assertTrue(checkpoint.getCheckpointLocation().toFile().renameTo(snapshotFile));
 
     //Create new Recon OM Metadata manager instance.

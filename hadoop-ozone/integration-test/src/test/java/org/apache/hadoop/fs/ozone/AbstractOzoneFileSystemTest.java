@@ -2163,7 +2163,7 @@ abstract class AbstractOzoneFileSystemTest {
     assertEquals(FsPermission.getDirDefault(), status.getPermission());
     verifyOwnerGroup(status);
 
-    long currentTime = System.currentTimeMillis();
+    long currentTime = Time.monotonicNow();
     OmKeyArgs keyArgs = new OmKeyArgs.Builder()
         .setVolumeName(volumeName)
         .setBucketName(bucketName)

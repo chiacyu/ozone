@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.ozone.util;
 
+import org.apache.hadoop.util.Time;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public final class UUIDv7 {
 
     // current timestamp in ms
     ByteBuffer timestamp = ByteBuffer.allocate(Long.BYTES);
-    timestamp.putLong(System.currentTimeMillis());
+    timestamp.putLong(Time.monotonicNow());
 
     // timestamp
     System.arraycopy(timestamp.array(), 2, value, 0, 6);

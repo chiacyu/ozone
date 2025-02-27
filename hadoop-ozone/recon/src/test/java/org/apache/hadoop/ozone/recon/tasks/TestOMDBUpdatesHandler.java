@@ -49,6 +49,7 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.apache.hadoop.ozone.om.helpers.OmVolumeArgs;
 import org.apache.hadoop.ozone.om.helpers.RepeatedOmKeyInfo;
 import org.apache.hadoop.ozone.security.OzoneTokenIdentifier;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -314,8 +315,8 @@ public class TestOMDBUpdatesHandler {
         .setName("sameName")
         .setParentObjectID(fileKeyInfo.getParentObjectID())
         .setObjectID(fileKeyInfo.getObjectID())
-        .setCreationTime(System.currentTimeMillis())
-        .setModificationTime(System.currentTimeMillis())
+        .setCreationTime(Time.monotonicNow())
+        .setModificationTime(Time.monotonicNow())
         .build();
     omMetadataManager.getDirectoryTable().put("/sampleVol/bucketOne/parentId/sameName", dirInfo);
 

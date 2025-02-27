@@ -39,6 +39,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.hadoop.ozone.recon.ReconContext;
 import org.apache.hadoop.ozone.recon.ReconSchemaVersionTableManager;
 import org.apache.hadoop.ozone.recon.upgrade.ReconLayoutVersionManager;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.SchemaVersionTableDefinition;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -103,7 +104,7 @@ public class TestSchemaVersionTableDefinition extends AbstractReconSqlDBTest {
     // Insert a new version record
     dslContext.insertInto(DSL.table(SCHEMA_VERSION_TABLE_NAME))
         .columns(DSL.field(name("version_number")), DSL.field(name("applied_on")))
-        .values(1, new Timestamp(System.currentTimeMillis()))
+        .values(1, new Timestamp(Time.monotonicNow()))
         .execute();
 
     // Read the inserted record
@@ -239,7 +240,7 @@ public class TestSchemaVersionTableDefinition extends AbstractReconSqlDBTest {
     dslContext.insertInto(DSL.table(SCHEMA_VERSION_TABLE_NAME))
         .columns(DSL.field(name("version_number")),
             DSL.field(name("applied_on")))
-        .values(2, new Timestamp(System.currentTimeMillis()))
+        .values(2, new Timestamp(Time.monotonicNow()))
         .execute();
 
     // Initialize the schema

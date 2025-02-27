@@ -77,6 +77,7 @@ import org.apache.hadoop.ozone.container.keyvalue.helpers.KeyValueContainerUtil;
 import org.apache.hadoop.ozone.container.replication.ContainerImporter;
 import org.apache.hadoop.ozone.container.upgrade.VersionedDatanodeFeatures;
 import org.apache.hadoop.util.DiskChecker.DiskOutOfSpaceException;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -993,7 +994,7 @@ public class KeyValueContainer implements Container<KeyValueContainerData> {
    * @throws IOException
    */
   private File createTempFile(File file) throws IOException {
-    return File.createTempFile("tmp_" + System.currentTimeMillis() + "_",
+    return File.createTempFile("tmp_" + Time.monotonicNow() + "_",
         file.getName(), file.getParentFile());
   }
 

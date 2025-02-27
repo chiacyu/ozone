@@ -32,6 +32,7 @@ import org.apache.hadoop.hdds.utils.db.Table;
 import org.apache.hadoop.hdds.utils.db.Table.KeyValue;
 import org.apache.hadoop.hdds.utils.db.TableIterator;
 import org.apache.hadoop.ozone.recon.ReconUtils;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +94,7 @@ public class ReconDBProvider {
   }
 
   static DBStore getNewDBStore(OzoneConfiguration configuration) {
-    String dbName = RECON_CONTAINER_KEY_DB + "_" + System.currentTimeMillis();
+    String dbName = RECON_CONTAINER_KEY_DB + "_" + Time.monotonicNow();
     return initializeDBStore(configuration, dbName);
   }
 

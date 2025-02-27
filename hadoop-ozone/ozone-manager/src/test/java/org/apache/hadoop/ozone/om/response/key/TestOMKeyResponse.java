@@ -40,6 +40,7 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.apache.hadoop.ozone.om.helpers.OmVolumeArgs;
 import org.apache.hadoop.ozone.om.helpers.RepeatedOmKeyInfo;
 import org.apache.hadoop.ozone.om.request.OMRequestTestUtils;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
@@ -86,7 +87,7 @@ public class TestOMKeyResponse {
         .setVolume(volumeName)
         .setAdminName("admin")
         .setOwnerName("owner")
-        .setObjectID(System.currentTimeMillis())
+        .setObjectID(Time.monotonicNow())
         .build();
 
     omMetadataManager.getVolumeTable().addCacheEntry(
@@ -96,7 +97,7 @@ public class TestOMKeyResponse {
     omBucketInfo = OmBucketInfo.newBuilder()
             .setVolumeName(volumeName)
             .setBucketName(bucketName)
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .setStorageType(StorageType.DISK)
             .setIsVersionEnabled(false)
             .build();

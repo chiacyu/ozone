@@ -208,8 +208,8 @@ public class GeneratorOm extends BaseGenerator implements
         .setBucketName(bucketName)
         .setKeyName(keyName)
         .setDataSize(0)
-        .setCreationTime(System.currentTimeMillis())
-        .setModificationTime(System.currentTimeMillis())
+        .setCreationTime(Time.monotonicNow())
+        .setModificationTime(Time.monotonicNow())
         .setReplicationConfig(RatisReplicationConfig
             .getInstance(ReplicationFactor.ONE))
         .build();
@@ -265,8 +265,8 @@ public class GeneratorOm extends BaseGenerator implements
         .setBucketName(bucketName)
         .setKeyName(level1 + "/" + level2 + "/" + level3 + "/key" + l)
         .setDataSize(getKeySize())
-        .setCreationTime(System.currentTimeMillis())
-        .setModificationTime(System.currentTimeMillis())
+        .setCreationTime(Time.monotonicNow())
+        .setModificationTime(Time.monotonicNow())
         .setReplicationConfig(
             StandaloneReplicationConfig.getInstance(ReplicationFactor.THREE))
         .addOmKeyLocationInfoGroup(infoGroup)

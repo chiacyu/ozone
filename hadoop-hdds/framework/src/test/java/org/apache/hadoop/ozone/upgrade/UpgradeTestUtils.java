@@ -26,6 +26,7 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.hadoop.hdds.protocol.proto.HddsProtos;
 import org.apache.hadoop.ozone.common.StorageInfo;
 import org.apache.hadoop.ozone.upgrade.InjectedUpgradeFinalizationExecutor.UpgradeTestInjectionPoints;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 
 /**
@@ -52,7 +53,7 @@ public final class UpgradeTestUtils {
     StorageInfo info = new StorageInfo(
         nodeType,
         UUID.randomUUID().toString(),
-        System.currentTimeMillis(),
+        Time.monotonicNow(),
         mlv);
 
     if (properties != null) {

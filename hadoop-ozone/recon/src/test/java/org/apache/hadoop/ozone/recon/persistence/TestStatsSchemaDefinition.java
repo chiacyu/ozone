@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.GlobalStatsDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.GlobalStats;
 import org.junit.jupiter.api.Test;
@@ -84,7 +85,7 @@ public class TestStatsSchemaDefinition extends AbstractReconSqlDBTest {
 
     GlobalStatsDao dao = getDao(GlobalStatsDao.class);
 
-    long now = System.currentTimeMillis();
+    long now = Time.monotonicNow();
     GlobalStats newRecord = new GlobalStats();
     newRecord.setLastUpdatedTimestamp(new Timestamp(now));
     newRecord.setKey("key1");

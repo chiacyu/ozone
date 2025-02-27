@@ -54,6 +54,7 @@ import org.apache.hadoop.hdds.scm.events.SCMEvents;
 import org.apache.hadoop.hdds.scm.node.states.NodeNotFoundException;
 import org.apache.hadoop.hdds.server.events.EventQueue;
 import org.apache.hadoop.security.authentication.client.AuthenticationException;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -537,10 +538,10 @@ public class TestDatanodeAdminMonitor {
             IN_SERVICE,
             IN_SERVICE);
 
-    long beforeTime = System.currentTimeMillis();
+    long beforeTime = Time.monotonicNow();
     monitor.startMonitoring(dn1);
     monitor.run();
-    long afterTime = System.currentTimeMillis();
+    long afterTime = Time.monotonicNow();
 
     assertEquals(1, monitor.getTrackedNodeCount());
     long monitoredTime = monitor.getSingleTrackedNode(dn1.getIpAddress())

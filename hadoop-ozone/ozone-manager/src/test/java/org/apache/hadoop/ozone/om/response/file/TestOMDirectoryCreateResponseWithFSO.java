@@ -43,6 +43,7 @@ import org.apache.hadoop.ozone.om.request.file.OMDirectoryCreateRequestWithFSO;
 import org.apache.hadoop.ozone.om.response.TestOMResponseUtils;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.OMResponse;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -124,7 +125,7 @@ public class TestOMDirectoryCreateResponseWithFSO {
             .setVolume(volumeName)
             .setAdminName("admin")
             .setOwnerName("owner")
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .build();
 
     omMetadataManager.getVolumeTable().addCacheEntry(
@@ -136,7 +137,7 @@ public class TestOMDirectoryCreateResponseWithFSO {
     final OmBucketInfo omBucketInfo = OmBucketInfo.newBuilder()
             .setVolumeName(volumeName)
             .setBucketName(bucketName)
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .setStorageType(StorageType.DISK)
             .setIsVersionEnabled(false)
             .build();

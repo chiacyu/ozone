@@ -25,6 +25,7 @@ import org.apache.hadoop.hdds.utils.db.Codec;
 import org.apache.hadoop.hdds.utils.db.IntegerCodec;
 import org.apache.hadoop.ozone.recon.api.types.ContainerKeyPrefix;
 import org.apache.hadoop.ozone.recon.spi.impl.ContainerKeyPrefixCodec;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,7 +36,7 @@ public class TestReconCodecs {
   @Test
   public void testContainerKeyPrefixCodec() throws IOException {
     ContainerKeyPrefix containerKeyPrefix = ContainerKeyPrefix.get(
-        System.currentTimeMillis(), "TestKeyPrefix", 0);
+        Time.monotonicNow(), "TestKeyPrefix", 0);
 
     Codec<ContainerKeyPrefix> codec = ContainerKeyPrefixCodec.get();
     byte[] persistedFormat = codec.toPersistedFormat(containerKeyPrefix);

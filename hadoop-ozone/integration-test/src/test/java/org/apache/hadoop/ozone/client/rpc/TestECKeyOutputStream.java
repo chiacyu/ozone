@@ -76,6 +76,7 @@ import org.apache.hadoop.ozone.client.io.OzoneOutputStream;
 import org.apache.hadoop.ozone.container.TestHelper;
 import org.apache.hadoop.ozone.container.common.interfaces.Handler;
 import org.apache.hadoop.ozone.om.helpers.OmKeyLocationInfo;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.test.GenericTestUtils;
 import org.apache.ozone.test.tag.Unhealthy;
 import org.junit.jupiter.api.AfterAll;
@@ -530,7 +531,7 @@ public class TestECKeyOutputStream {
         out.write(inputData);
 
         // Wait for flushing thread to finish its work.
-        final long checkpoint = System.currentTimeMillis();
+        final long checkpoint = Time.monotonicNow();
         ecOut.insertFlushCheckpoint(checkpoint);
         GenericTestUtils.waitFor(() -> ecOut.getFlushCheckpoint() == checkpoint,
             100, 10000);

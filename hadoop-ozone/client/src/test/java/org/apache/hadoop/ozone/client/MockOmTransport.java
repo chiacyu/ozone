@@ -61,6 +61,7 @@ import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.Service
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.ServiceListResponse;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.Status;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.VolumeInfo;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -251,7 +252,7 @@ public class MockOmTransport implements OmTransport {
 
   private CreateKeyResponse createKey(CreateKeyRequest createKeyRequest) {
     final KeyArgs keyArgs = createKeyRequest.getKeyArgs();
-    final long now = System.currentTimeMillis();
+    final long now = Time.monotonicNow();
     final BucketInfo bucketInfo =
         buckets.get(keyArgs.getVolumeName()).get(keyArgs.getBucketName());
 
@@ -391,7 +392,7 @@ public class MockOmTransport implements OmTransport {
       CreateBucketRequest createBucketRequest) {
     final BucketInfo bucketInfo =
         BucketInfo.newBuilder(createBucketRequest.getBucketInfo())
-            .setCreationTime(System.currentTimeMillis())
+            .setCreationTime(Time.monotonicNow())
             .build();
 
     buckets.get(bucketInfo.getVolumeName())

@@ -46,6 +46,7 @@ import org.apache.hadoop.hdds.scm.node.NodeDecommissionMetrics.ContainerStateInW
 import org.apache.hadoop.hdds.scm.node.states.NodeNotFoundException;
 import org.apache.hadoop.hdds.scm.pipeline.PipelineID;
 import org.apache.hadoop.hdds.server.events.EventPublisher;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,7 +163,7 @@ public class DatanodeAdminMonitorImpl implements DatanodeAdminMonitor {
    */
   @Override
   public synchronized void startMonitoring(DatanodeDetails dn) {
-    TrackedNode tn = new TrackedNode(dn, System.currentTimeMillis());
+    TrackedNode tn = new TrackedNode(dn, Time.monotonicNow());
     cancelledNodes.remove(tn);
     pendingNodes.add(tn);
   }

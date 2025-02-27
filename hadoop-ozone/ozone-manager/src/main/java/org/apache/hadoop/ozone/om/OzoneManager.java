@@ -4028,7 +4028,7 @@ public final class OzoneManager extends ServiceRuntimeInfoImpl
 
     // Take a backup of the current DB
     String dbBackupName = OzoneConsts.OM_DB_BACKUP_PREFIX +
-        lastAppliedIndex + "_" + System.currentTimeMillis();
+        lastAppliedIndex + "_" + Time.monotonicNow();
     File dbDir = oldDB.getParentFile();
 
     // Backup the active fs and snapshot dirs.

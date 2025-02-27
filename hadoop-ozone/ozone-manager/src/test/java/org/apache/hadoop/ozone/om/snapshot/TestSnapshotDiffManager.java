@@ -142,6 +142,7 @@ import org.apache.hadoop.ozone.snapshot.SnapshotDiffResponse.JobStatus;
 import org.apache.hadoop.ozone.util.ClosableIterator;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.ExitUtil;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.rocksdb.util.RdbUtil;
 import org.apache.ozone.rocksdb.util.SstFileSetReader;
 import org.apache.ozone.rocksdiff.DifferSnapshotInfo;
@@ -301,7 +302,7 @@ public class TestSnapshotDiffManager {
           .setCheckpointDir(snapshotCheckpointDir)
           .build();
 
-      SnapshotDiffJob diffJob = new SnapshotDiffJob(System.currentTimeMillis(),
+      SnapshotDiffJob diffJob = new SnapshotDiffJob(Time.monotonicNow(),
           UUID.randomUUID().toString(), jobStatus, VOLUME_NAME, BUCKET_NAME,
           baseSnapshotName, targetSnapshotName, false, false, 0);
 
@@ -1486,7 +1487,7 @@ public class TestSnapshotDiffManager {
                                                String snapshotName,
                                                UUID snapshotUUID) {
     SnapshotInfo info = SnapshotInfo.newInstance(volumeName, bucketName,
-        snapshotName, snapshotUUID, System.currentTimeMillis());
+        snapshotName, snapshotUUID, Time.monotonicNow());
     info.setSnapshotStatus(SnapshotInfo.SnapshotStatus.SNAPSHOT_ACTIVE);
     return info;
   }

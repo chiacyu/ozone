@@ -274,7 +274,7 @@ public class TestSnapshotChain {
     List<SnapshotInfo> snapshotInfoList = new ArrayList<>();
 
     UUID prevSnapshotID = null;
-    long time = System.currentTimeMillis();
+    long time = Time.monotonicNow();
     for (UUID snapshotID : snapshotIDs) {
       SnapshotInfo snapInfo = createSnapshotInfo(snapshotID, prevSnapshotID,
           prevSnapshotID, increasingTIme ? time++ : time--);
@@ -315,7 +315,7 @@ public class TestSnapshotChain {
     List<SnapshotInfo> snapshotInfoList = new ArrayList<>();
 
     UUID prevSnapshotID = null;
-    long time = System.currentTimeMillis();
+    long time = Time.monotonicNow();
     for (int i = 0; i < numberOfSnapshots; i++) {
       UUID snapshotID = UUID.randomUUID();
       SnapshotInfo snapInfo = createSnapshotInfo(snapshotID, prevSnapshotID,
@@ -377,7 +377,7 @@ public class TestSnapshotChain {
     for (UUID snapshotID : snapshotIDs) {
       snapshotInfo.put(snapshotID.toString(),
           createSnapshotInfo(snapshotID, snapshotChain.get(snapshotID),
-              snapshotChain.get(snapshotID), System.currentTimeMillis()));
+              snapshotChain.get(snapshotID), Time.monotonicNow()));
     }
     chainManager = new SnapshotChainManager(omMetadataManager);
 
@@ -386,7 +386,7 @@ public class TestSnapshotChain {
     SnapshotInfo snapInfo = createSnapshotInfo(UUID.randomUUID(),
         UUID.randomUUID(),
         UUID.randomUUID(),
-        System.currentTimeMillis());
+        Time.monotonicNow());
     IOException createException = assertThrows(IOException.class,
             () -> chainManager.addSnapshot(snapInfo));
     assertEquals("Snapshot chain is corrupted.", createException.getMessage());
@@ -410,7 +410,7 @@ public class TestSnapshotChain {
     for (UUID snapshotID : snapshotIDs) {
       snapshotInfo.put(snapshotID.toString(),
           createSnapshotInfo(snapshotID, snapshotChain.get(snapshotID),
-              prevSnapshotId, System.currentTimeMillis()));
+              prevSnapshotId, Time.monotonicNow()));
       prevSnapshotId = snapshotID;
     }
     chainManager = new SnapshotChainManager(omMetadataManager);
@@ -419,7 +419,7 @@ public class TestSnapshotChain {
     SnapshotInfo snapInfo = createSnapshotInfo(UUID.randomUUID(),
         UUID.randomUUID(),
         UUID.randomUUID(),
-        System.currentTimeMillis());
+        Time.monotonicNow());
     IOException createException = assertThrows(IOException.class,
             () -> chainManager.addSnapshot(snapInfo));
     assertEquals("Snapshot chain is corrupted.", createException.getMessage());

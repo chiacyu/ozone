@@ -140,7 +140,7 @@ public class ContainerHealthTask extends ReconScmTask {
       initializeUnhealthyContainerStateStatsMap(
           unhealthyContainerStateStatsMap);
       long start = Time.monotonicNow();
-      long currentTime = System.currentTimeMillis();
+      long currentTime = Time.monotonicNow();
       long existingCount = processExistingDBRecords(currentTime,
           unhealthyContainerStateStatsMap);
       LOG.debug("Container Health task thread took {} milliseconds to" +

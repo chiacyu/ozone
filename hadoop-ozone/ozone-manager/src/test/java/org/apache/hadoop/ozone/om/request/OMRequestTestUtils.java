@@ -658,7 +658,7 @@ public final class OMRequestTestUtils {
     OmVolumeArgs omVolumeArgs =
         OmVolumeArgs.newBuilder().setCreationTime(Time.now())
             .setVolume(volumeName).setAdminName(ownerName)
-            .setObjectID(System.currentTimeMillis())
+            .setObjectID(Time.monotonicNow())
             .setOwnerName(ownerName).setQuotaInBytes(Long.MAX_VALUE)
             .setQuotaInNamespace(10000L).build();
     omMetadataManager.getVolumeTable().put(
@@ -699,7 +699,7 @@ public final class OMRequestTestUtils {
       OmBucketInfo.Builder builder) throws Exception {
 
     OmBucketInfo omBucketInfo = builder
-        .setObjectID(System.currentTimeMillis())
+        .setObjectID(Time.monotonicNow())
         .setCreationTime(Time.now())
         .build();
 
@@ -1701,7 +1701,7 @@ public final class OMRequestTestUtils {
         .build();
     return OmPrefixInfo.newBuilder()
         .setName(prefixObj.getPath())
-        .setObjectID(System.currentTimeMillis())
+        .setObjectID(Time.monotonicNow())
         .setUpdateID(trxnLogIndex)
         .build();
   }

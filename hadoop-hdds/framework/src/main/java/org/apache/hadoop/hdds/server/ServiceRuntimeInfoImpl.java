@@ -18,6 +18,7 @@
 package org.apache.hadoop.hdds.server;
 
 import org.apache.hadoop.hdds.utils.VersionInfo;
+import org.apache.hadoop.util.Time;
 
 /**
  * Helper base class to report the standard version and runtime information.
@@ -47,6 +48,6 @@ public class ServiceRuntimeInfoImpl implements ServiceRuntimeInfo {
   }
 
   public void setStartTime() {
-    startedTimeInMillis = System.currentTimeMillis();
+    startedTimeInMillis = Time.monotonicNow();
   }
 }

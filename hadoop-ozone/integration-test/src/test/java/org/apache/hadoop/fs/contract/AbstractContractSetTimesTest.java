@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public abstract class AbstractContractSetTimesTest extends
   @Test
   public void testSetTimesNonexistentFile() throws Throwable {
     try {
-      long time = System.currentTimeMillis();
+      long time = Time.monotonicNow();
       getFileSystem().setTimes(target, time, time);
       //got here: trouble
       fail("expected a failure");

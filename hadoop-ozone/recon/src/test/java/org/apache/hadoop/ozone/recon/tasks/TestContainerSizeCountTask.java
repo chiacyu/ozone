@@ -39,6 +39,7 @@ import org.apache.hadoop.ozone.recon.persistence.AbstractReconSqlDBTest;
 import org.apache.hadoop.ozone.recon.spi.StorageContainerServiceProvider;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdater;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdaterManager;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.UtilizationSchemaDefinition;
 import org.apache.ozone.recon.schema.generated.tables.daos.ContainerCountBySizeDao;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
@@ -75,7 +76,7 @@ public class TestContainerSizeCountTask extends AbstractReconSqlDBTest {
     reconTaskConfig.setContainerSizeCountTaskInterval(Duration.ofSeconds(1));
     reconTaskStatusUpdaterManager = mock(ReconTaskStatusUpdaterManager.class);
     when(reconTaskStatusUpdaterManager.getTaskStatusUpdater(anyString())).thenReturn(new ReconTaskStatusUpdater(
-        getDao(ReconTaskStatusDao.class), "mockedTask-" + System.currentTimeMillis()));
+        getDao(ReconTaskStatusDao.class), "mockedTask-" + Time.monotonicNow()));
     containerManager = mock(ContainerManager.class);
     scmClient = mock(StorageContainerServiceProvider.class);
     task = new ContainerSizeCountTask(

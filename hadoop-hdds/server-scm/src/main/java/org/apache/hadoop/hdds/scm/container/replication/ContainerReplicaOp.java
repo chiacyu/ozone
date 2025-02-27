@@ -19,6 +19,7 @@ package org.apache.hadoop.hdds.scm.container.replication;
 
 import org.apache.hadoop.hdds.protocol.DatanodeDetails;
 import org.apache.hadoop.ozone.protocol.commands.SCMCommand;
+import org.apache.hadoop.util.Time;
 
 /**
  * Class to wrap details used to track pending replications.
@@ -40,7 +41,7 @@ public class ContainerReplicaOp {
 
   public static ContainerReplicaOp create(PendingOpType opType,
       DatanodeDetails target, int replicaIndex) {
-    return new ContainerReplicaOp(opType, target, replicaIndex, null, System.currentTimeMillis());
+    return new ContainerReplicaOp(opType, target, replicaIndex, null, Time.monotonicNow());
   }
 
   public ContainerReplicaOp(PendingOpType opType,

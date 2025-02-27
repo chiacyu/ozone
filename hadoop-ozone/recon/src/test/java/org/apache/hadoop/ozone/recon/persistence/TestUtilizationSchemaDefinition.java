@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.UtilizationSchemaDefinition;
 import org.apache.ozone.recon.schema.generated.tables.daos.ClusterGrowthDailyDao;
 import org.apache.ozone.recon.schema.generated.tables.daos.FileCountBySizeDao;
@@ -147,7 +148,7 @@ public class TestUtilizationSchemaDefinition extends AbstractReconSqlDBTest {
     }
 
     ClusterGrowthDailyDao dao = getDao(ClusterGrowthDailyDao.class);
-    long now = System.currentTimeMillis();
+    long now = Time.monotonicNow();
     ClusterGrowthDaily newRecord = new ClusterGrowthDaily();
     newRecord.setTimestamp(new Timestamp(now));
     newRecord.setDatanodeId(10);

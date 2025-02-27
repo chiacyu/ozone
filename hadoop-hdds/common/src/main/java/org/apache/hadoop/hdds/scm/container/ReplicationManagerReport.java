@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
 import org.apache.hadoop.hdds.protocol.proto.HddsProtos;
+import org.apache.hadoop.util.Time;
 
 /**
  * This class is used by ReplicationManager. Each time ReplicationManager runs,
@@ -132,7 +133,7 @@ public class ReplicationManagerReport {
   }
 
   public void setComplete() {
-    reportTimeStamp = System.currentTimeMillis();
+    reportTimeStamp = Time.monotonicNow();
   }
 
   /**

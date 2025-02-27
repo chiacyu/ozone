@@ -35,6 +35,7 @@ import org.apache.hadoop.ozone.recon.persistence.AbstractReconSqlDBTest;
 import org.apache.hadoop.ozone.recon.recovery.ReconOMMetadataManager;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdater;
 import org.apache.hadoop.ozone.recon.tasks.updater.ReconTaskStatusUpdaterManager;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.ReconTaskStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +70,7 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
 
   @Test
   public void testRegisterTask() {
-    String taskName = "Dummy_" + System.currentTimeMillis();
+    String taskName = "Dummy_" + Time.monotonicNow();
     DummyReconDBTask dummyReconDBTask =
         new DummyReconDBTask(taskName, DummyReconDBTask.TaskType.ALWAYS_PASS);
     reconTaskController.registerTask(dummyReconDBTask);
@@ -88,14 +89,14 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
     when(omUpdateEventBatchMock.getLastSequenceNumber()).thenReturn(100L);
     when(omUpdateEventBatchMock.isEmpty()).thenReturn(false);
 
-    long startTime = System.currentTimeMillis();
+    long startTime = Time.monotonicNow();
     reconTaskController.consumeOMEvents(
         omUpdateEventBatchMock,
         mock(OMMetadataManager.class));
 
     verify(reconOmTaskMock, times(1))
         .process(any(), anyMap());
-    long endTime = System.currentTimeMillis();
+    long endTime = Time.monotonicNow();
 
     ReconTaskStatus reconTaskStatus = reconTaskStatusDao.findById("MockTask");
     long taskTimeStamp = reconTaskStatus.getLastUpdatedTimestamp();
@@ -117,14 +118,14 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
     when(omUpdateEventBatchMock.getLastSequenceNumber()).thenReturn(100L);
     when(omUpdateEventBatchMock.isEmpty()).thenReturn(false);
 
-    long startTime = System.currentTimeMillis();
+    long startTime = Time.monotonicNow();
     reconTaskController.consumeOMEvents(
         omUpdateEventBatchMock,
         mock(OMMetadataManager.class));
 
     verify(reconOmTaskMock, times(1))
         .process(any(), anyMap());
-    long endTime = System.currentTimeMillis();
+    long endTime = Time.monotonicNow();
 
     ReconTaskStatus reconTaskStatus = reconTaskStatusDao.findById("MockTask");
     long taskTimeStamp = reconTaskStatus.getLastUpdatedTimestamp();
@@ -139,13 +140,13 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
 
   @Test
   public void testFailedTaskRetryLogic() throws Exception {
-    String taskName = "Dummy_" + System.currentTimeMillis();
+    String taskName = "Dummy_" + Time.monotonicNow();
 
     DummyReconDBTask dummyReconDBTask =
         new DummyReconDBTask(taskName, DummyReconDBTask.TaskType.FAIL_ONCE);
     reconTaskController.registerTask(dummyReconDBTask);
 
-    long currentTime = System.currentTimeMillis();
+    long currentTime = Time.monotonicNow();
     OMUpdateEventBatch omUpdateEventBatchMock = mock(OMUpdateEventBatch.class);
     when(omUpdateEventBatchMock.isEmpty()).thenReturn(false);
     when(omUpdateEventBatchMock.getLastSequenceNumber()).thenReturn(100L);
@@ -167,7 +168,7 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
 
   @Test
   public void testBadBehavedTaskIsIgnored() throws Exception {
-    String taskName = "Dummy_" + System.currentTimeMillis();
+    String taskName = "Dummy_" + Time.monotonicNow();
     DummyReconDBTask dummyReconDBTask =
         new DummyReconDBTask(taskName, DummyReconDBTask.TaskType.ALWAYS_FAIL);
     reconTaskController.registerTask(dummyReconDBTask);
@@ -187,7 +188,7 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
     }
 
     //Should be ignored now.
-    Long startTime = System.currentTimeMillis();
+    Long startTime = Time.monotonicNow();
     reconTaskController.consumeOMEvents(omUpdateEventBatchMock,
         omMetadataManagerMock);
     assertThat(reconTaskController.getRegisteredTasks()).isEmpty();
@@ -213,10 +214,10 @@ public class TestReconTaskControllerImpl extends AbstractReconSqlDBTest {
     when(omMetadataManagerMock.getLastSequenceNumberFromDB()
     ).thenReturn(100L);
 
-    long startTime = System.currentTimeMillis();
+    long startTime = Time.monotonicNow();
     reconTaskController.registerTask(reconOmTaskMock);
     reconTaskController.reInitializeTasks(omMetadataManagerMock);
-    long endTime = System.currentTimeMillis();
+    long endTime = Time.monotonicNow();
 
     verify(reconOmTaskMock, times(1))
         .reprocess(omMetadataManagerMock);

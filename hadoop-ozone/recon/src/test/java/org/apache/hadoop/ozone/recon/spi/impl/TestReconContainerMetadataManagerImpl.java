@@ -37,6 +37,7 @@ import org.apache.hadoop.ozone.recon.api.types.ContainerMetadata;
 import org.apache.hadoop.ozone.recon.api.types.KeyPrefixContainer;
 import org.apache.hadoop.ozone.recon.recovery.ReconOMMetadataManager;
 import org.apache.hadoop.ozone.recon.spi.ReconContainerMetadataManager;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,7 +106,7 @@ public class TestReconContainerMetadataManagerImpl {
 
   @Test
   public void testInitNewContainerDB() throws Exception {
-    long containerId = System.currentTimeMillis();
+    long containerId = Time.monotonicNow();
     Map<ContainerKeyPrefix, Integer> prefixCounts = new HashMap<>();
 
     ContainerKeyPrefix ckp1 = ContainerKeyPrefix.get(containerId,
@@ -159,7 +160,7 @@ public class TestReconContainerMetadataManagerImpl {
   @Test
   public void testBatchStoreContainerKeyMapping() throws Exception {
 
-    long containerId = System.currentTimeMillis();
+    long containerId = Time.monotonicNow();
     Map<String, Integer> prefixCounts = new HashMap<>();
     prefixCounts.put(keyPrefix1, 1);
     prefixCounts.put(keyPrefix2, 2);
@@ -253,7 +254,7 @@ public class TestReconContainerMetadataManagerImpl {
 
   @Test
   public void testGetCountForContainerKeyPrefix() throws Exception {
-    long containerId = System.currentTimeMillis();
+    long containerId = Time.monotonicNow();
 
     RDBBatchOperation rdbBatchOperation = new RDBBatchOperation();
     reconContainerMetadataManager.batchStoreContainerKeyMapping(

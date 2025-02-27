@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CharSequenceInputStream;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.hadoop.util.Time;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -87,7 +88,7 @@ public abstract class GenericTestUtils {
    * @return current time as {@code Instant};
    */
   public static Instant getTestStartTime() {
-    return Instant.ofEpochMilli(System.currentTimeMillis());
+    return Instant.ofEpochMilli(Time.monotonicNow());
   }
 
   /**

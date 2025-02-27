@@ -41,6 +41,7 @@ import org.apache.hadoop.hdds.protocol.proto.HddsProtos;
 import org.apache.hadoop.hdds.scm.client.ScmClient;
 import org.apache.hadoop.hdds.scm.pipeline.Pipeline;
 import org.apache.hadoop.hdds.scm.pipeline.PipelineID;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -150,7 +151,7 @@ class TestClosePipelinesSubCommand {
                                   Pipeline.PipelineState state) {
     return new Pipeline.Builder()
         .setId(PipelineID.randomId())
-        .setCreateTimestamp(System.currentTimeMillis())
+        .setCreateTimestamp(Time.monotonicNow())
         .setState(state)
         .setReplicationConfig(repConfig)
         .setNodes(createDatanodeDetails(1))

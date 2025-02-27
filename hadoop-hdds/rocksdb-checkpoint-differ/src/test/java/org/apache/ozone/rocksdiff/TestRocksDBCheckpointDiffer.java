@@ -89,6 +89,7 @@ import org.apache.hadoop.hdds.utils.db.managed.ManagedRocksDB;
 import org.apache.hadoop.hdds.utils.db.managed.ManagedRocksIterator;
 import org.apache.hadoop.hdds.utils.db.managed.ManagedSstFileReader;
 import org.apache.hadoop.ozone.lock.BootstrapStateHandler;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.compaction.log.CompactionFileInfo;
 import org.apache.ozone.compaction.log.CompactionLogEntry;
 import org.apache.ozone.rocksdb.util.RdbUtil;
@@ -757,8 +758,8 @@ public class TestRocksDBCheckpointDiffer {
    */
   private void createCheckpoint(ManagedRocksDB rocksDB) throws RocksDBException {
 
-    LOG.trace("Current time: " + System.currentTimeMillis());
-    long t1 = System.currentTimeMillis();
+    LOG.trace("Current time: " + Time.monotonicNow());
+    long t1 = Time.monotonicNow();
 
     final long snapshotGeneration = rocksDB.get().getLatestSequenceNumber();
     final String cpPath = CP_PATH_PREFIX + snapshotGeneration;
@@ -780,7 +781,7 @@ public class TestRocksDBCheckpointDiffer {
                 colHandle));
     this.snapshots.add(currentSnapshot);
 
-    long t2 = System.currentTimeMillis();
+    long t2 = Time.monotonicNow();
     LOG.trace("Current time: " + t2);
     LOG.debug("Time elapsed: " + (t2 - t1) + " ms");
   }
@@ -1224,7 +1225,7 @@ public class TestRocksDBCheckpointDiffer {
 
   @SuppressWarnings("methodlength")
   private static Stream<Arguments> compactionDagPruningScenarios() {
-    long currentTimeMillis = System.currentTimeMillis();
+    long currentTimeMillis = Time.monotonicNow();
 
     String compactionLogFile0 = "S 1000 snapshotId0 " +
         (currentTimeMillis - MINUTES.toMillis(30)) + " \n";
@@ -1704,7 +1705,7 @@ public class TestRocksDBCheckpointDiffer {
   }
 
   private final List<CompactionLogEntry> compactionLogEntryList = Arrays.asList(
-      new CompactionLogEntry(101, System.currentTimeMillis(),
+      new CompactionLogEntry(101, Time.monotonicNow(),
           Arrays.asList(
               new CompactionFileInfo("000068", "/volume/bucket2",
                   "/volume/bucket2", "bucketTable"),
@@ -1714,7 +1715,7 @@ public class TestRocksDBCheckpointDiffer {
               new CompactionFileInfo("000086", "/volume/bucket1",
                   "/volume/bucket2", "bucketTable")),
           null),
-      new CompactionLogEntry(178, System.currentTimeMillis(),
+      new CompactionLogEntry(178, Time.monotonicNow(),
           Arrays.asList(new CompactionFileInfo("000078",
                   "/volume/bucket1/key-0000001411",
                   "/volume/bucket2/key-0000099649",
@@ -1741,7 +1742,7 @@ public class TestRocksDBCheckpointDiffer {
               "keyTable")),
           null
       ),
-      new CompactionLogEntry(233, System.currentTimeMillis(),
+      new CompactionLogEntry(233, Time.monotonicNow(),
           Arrays.asList(
               new CompactionFileInfo("000086", "/volume/bucket1",
                   "/volume/bucket2", "bucketTable"),
@@ -1752,7 +1753,7 @@ public class TestRocksDBCheckpointDiffer {
                   "/volume/bucket3", "bucketTable")
           ),
           null),
-      new CompactionLogEntry(256, System.currentTimeMillis(),
+      new CompactionLogEntry(256, Time.monotonicNow(),
           Arrays.asList(new CompactionFileInfo("000081",
                   "/volume/bucket1/key-0000000730",
                   "/volume/bucket2/key-0000099649",

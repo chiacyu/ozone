@@ -60,6 +60,7 @@ import org.apache.hadoop.ozone.om.helpers.OmKeyLocationInfoGroup;
 import org.apache.hadoop.ozone.om.helpers.ServiceInfoEx;
 import org.apache.hadoop.ozone.om.protocolPB.OmTransport;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.erasurecode.rawcoder.RSRawErasureCoderFactory;
 import org.apache.ozone.erasurecode.rawcoder.RawErasureEncoder;
 import org.apache.ozone.test.GenericTestUtils;
@@ -1181,7 +1182,7 @@ public class TestOzoneECClient {
 
   private static void waitForFlushingThreadToFinish(
       ECKeyOutputStream ecOut) throws Exception {
-    final long checkpoint = System.currentTimeMillis();
+    final long checkpoint = Time.monotonicNow();
     ecOut.insertFlushCheckpoint(checkpoint);
     GenericTestUtils.waitFor(() -> ecOut.getFlushCheckpoint() == checkpoint,
         100, 10000);

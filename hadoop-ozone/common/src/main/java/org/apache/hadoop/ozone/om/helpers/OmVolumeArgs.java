@@ -34,6 +34,7 @@ import org.apache.hadoop.ozone.OzoneConsts;
 import org.apache.hadoop.ozone.audit.Auditable;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.OzoneAclInfo;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos.VolumeInfo;
+import org.apache.hadoop.util.Time;
 
 /**
  * A class that encapsulates the OmVolumeArgs Args.
@@ -395,7 +396,7 @@ public final class OmVolumeArgs extends WithObjectID
         .addAllMetadata(KeyValueUtil.toProtobuf(getMetadata()))
         .addAllVolumeAcls(aclList)
         .setCreationTime(
-            creationTime == 0 ? System.currentTimeMillis() : creationTime)
+            creationTime == 0 ? Time.monotonicNow() : creationTime)
         .setModificationTime(modificationTime)
         .setObjectID(getObjectID())
         .setUpdateID(getUpdateID())

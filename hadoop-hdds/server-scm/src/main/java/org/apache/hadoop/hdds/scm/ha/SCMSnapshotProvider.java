@@ -35,6 +35,7 @@ import org.apache.hadoop.hdds.security.x509.certificate.client.CertificateClient
 import org.apache.hadoop.hdds.utils.db.DBCheckpoint;
 import org.apache.hadoop.hdds.utils.db.RocksDBCheckpoint;
 import org.apache.hadoop.ozone.OzoneConsts;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +95,7 @@ public class SCMSnapshotProvider {
    */
   public DBCheckpoint getSCMDBSnapshot(String leaderSCMNodeID)
       throws IOException {
-    String snapshotTime = Long.toString(System.currentTimeMillis());
+    String snapshotTime = Long.toString(Time.monotonicNow());
     String snapshotFileName =
         OzoneConsts.SCM_DB_NAME + "-" + leaderSCMNodeID + "-" + snapshotTime;
     String snapshotFilePath =

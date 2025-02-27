@@ -32,6 +32,7 @@ import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.hdds.HddsUtils;
 import org.apache.hadoop.hdds.utils.db.DBCheckpoint;
 import org.apache.hadoop.hdds.utils.db.RocksDBCheckpoint;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -169,7 +170,7 @@ public abstract class RDBSnapshotProvider implements Closeable {
    * @return snapshot file name
    */
   public String getSnapshotFileName(String leaderNodeID) {
-    String snapshotTime = Long.toString(System.currentTimeMillis());
+    String snapshotTime = Long.toString(Time.monotonicNow());
     return dbName + "-" + leaderNodeID + "-" + snapshotTime + ".tar";
   }
 

@@ -20,6 +20,7 @@ package org.apache.hadoop.hdds.utils.db;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class RocksDBCheckpoint implements DBCheckpoint {
       LoggerFactory.getLogger(RocksDBCheckpoint.class);
 
   private Path checkpointLocation;
-  private long checkpointTimestamp = System.currentTimeMillis();
+  private long checkpointTimestamp = Time.monotonicNow();
   private long latestSequenceNumber = -1;
   private long checkpointCreationTimeTaken = 0L;
 

@@ -25,6 +25,7 @@ import java.time.Duration;
 import java.time.Instant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.hdds.utils.db.RocksDatabase.RocksCheckpoint;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class RDBCheckpointManager implements Closeable {
    */
   public RocksDBCheckpoint createCheckpoint(String parentDir, String name) {
     try {
-      long currentTime = System.currentTimeMillis();
+      long currentTime = Time.monotonicNow();
 
       String checkpointDir = StringUtils.EMPTY;
       if (StringUtils.isNotEmpty(checkpointNamePrefix)) {

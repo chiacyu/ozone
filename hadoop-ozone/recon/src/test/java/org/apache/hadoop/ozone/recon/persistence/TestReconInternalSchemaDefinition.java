@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.ReconTaskStatus;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ public class TestReconInternalSchemaDefinition extends AbstractReconSqlDBTest {
     }
 
     ReconTaskStatusDao dao = getDao(ReconTaskStatusDao.class);
-    long now = System.currentTimeMillis();
+    long now = Time.monotonicNow();
     ReconTaskStatus newRecord = new ReconTaskStatus();
     newRecord.setTaskName("HelloWorldTask");
     newRecord.setLastUpdatedTimestamp(now);

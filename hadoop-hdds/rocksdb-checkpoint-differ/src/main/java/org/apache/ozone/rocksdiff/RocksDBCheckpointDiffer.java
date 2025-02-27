@@ -70,6 +70,7 @@ import org.apache.hadoop.hdds.utils.db.managed.ManagedRocksDB;
 import org.apache.hadoop.hdds.utils.db.managed.ManagedRocksIterator;
 import org.apache.hadoop.hdds.utils.db.managed.ManagedSstFileReader;
 import org.apache.hadoop.ozone.lock.BootstrapStateHandler;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.compaction.log.CompactionFileInfo;
 import org.apache.ozone.compaction.log.CompactionLogEntry;
 import org.apache.ozone.graph.PrintableGraph;
@@ -485,7 +486,7 @@ public class RocksDBCheckpointDiffer implements AutoCloseable,
         Map<String, CompactionFileInfo> inputFileCompactions = toFileInfoList(compactionJobInfo.inputFiles(), db);
         CompactionLogEntry.Builder builder;
         builder = new CompactionLogEntry.Builder(trxId,
-            System.currentTimeMillis(),
+            Time.monotonicNow(),
             inputFileCompactions.keySet().stream()
                 .map(inputFile -> {
                   if (!inflightCompactions.containsKey(inputFile)) {
@@ -1180,7 +1181,7 @@ public class RocksDBCheckpointDiffer implements AutoCloseable,
    * older than the maximum allowed in the compaction DAG.
    */
   private synchronized Pair<Set<String>, List<byte[]>> getOlderFileNodes() {
-    long compactionLogPruneStartTime = System.currentTimeMillis();
+    long compactionLogPruneStartTime = Time.monotonicNow();
     Set<String> compactionNodes = new HashSet<>();
     List<byte[]> keysToRemove = new ArrayList<>();
 

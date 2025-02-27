@@ -17,6 +17,7 @@
 
 package org.apache.hadoop.hdds.server.http;
 
+import org.apache.hadoop.util.Time;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -41,7 +42,7 @@ public class NoCacheFilter implements Filter {
       throws IOException, ServletException {
     HttpServletResponse httpRes = (HttpServletResponse) res;
     httpRes.setHeader("Cache-Control", "no-cache");
-    long now = System.currentTimeMillis();
+    long now = Time.monotonicNow();
     httpRes.setDateHeader("Expires", now);
     httpRes.setDateHeader("Date", now);
     httpRes.setHeader("Pragma", "no-cache");

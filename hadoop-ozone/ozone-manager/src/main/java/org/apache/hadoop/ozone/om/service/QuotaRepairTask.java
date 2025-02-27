@@ -56,6 +56,7 @@ import org.apache.hadoop.ozone.om.helpers.OmBucketInfo;
 import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.apache.hadoop.ozone.om.ratis.utils.OzoneManagerRatisUtils;
 import org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos;
+import org.apache.hadoop.util.Time;
 import org.apache.ratis.protocol.ClientId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -346,7 +347,7 @@ public class QuotaRepairTask {
           prefixUsageMap, q, isRunning, haveValue)));
     }
     int count = 0;
-    long startTime = System.currentTimeMillis();
+    long startTime = Time.monotonicNow();
     try (TableIterator<String, ? extends Table.KeyValue<String, VALUE>>
              keyIter = table.iterator()) {
       while (keyIter.hasNext()) {
@@ -363,7 +364,7 @@ public class QuotaRepairTask {
         f.get();
       }
       LOG.info("Recalculate {} completed, count {} time {}ms", strType,
-          count, (System.currentTimeMillis() - startTime));
+          count, (Time.monotonicNow() - startTime));
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     } catch (InterruptedException ex) {
@@ -497,7 +498,7 @@ public class QuotaRepairTask {
     public void updateStatus(OzoneManagerProtocolProtos.QuotaRepairRequest.Builder builder,
                              OMMetadataManager metadataManager) {
       isTriggered = true;
-      lastRunFinishedTime = System.currentTimeMillis();
+      lastRunFinishedTime = Time.monotonicNow();
       errorMsg = "";
       bucketCountDiffMap.clear();
       for (OzoneManagerProtocolProtos.BucketQuotaCount quotaCount : builder.getBucketCountList()) {
@@ -511,7 +512,7 @@ public class QuotaRepairTask {
 
     public void updateStatus(String errMsg) {
       isTriggered = true;
-      lastRunFinishedTime = System.currentTimeMillis();
+      lastRunFinishedTime = Time.monotonicNow();
       errorMsg = errMsg;
       bucketCountDiffMap.clear();
     }
@@ -519,7 +520,7 @@ public class QuotaRepairTask {
     public void reset(long tskId) {
       isTriggered = true;
       taskId = tskId;
-      lastRunStartTime = System.currentTimeMillis();
+      lastRunStartTime = Time.monotonicNow();
       lastRunFinishedTime = 0;
       errorMsg = "";
       bucketCountDiffMap.clear();

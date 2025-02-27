@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.hadoop.ozone.recon.persistence.AbstractReconSqlDBTest;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.generated.tables.daos.ReconTaskStatusDao;
 import org.apache.ozone.recon.schema.generated.tables.pojos.ReconTaskStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +60,7 @@ public class TestTaskStatusService extends AbstractReconSqlDBTest {
     ReconTaskStatusDao reconTaskStatusDao = getDao(ReconTaskStatusDao.class);
 
     ReconTaskStatus reconTaskStatusRecord = new ReconTaskStatus(
-        "Dummy_Task", System.currentTimeMillis(), 0L, lastTaskRunStatus, 0);
+        "Dummy_Task", Time.monotonicNow(), 0L, lastTaskRunStatus, 0);
     reconTaskStatusDao.insert(reconTaskStatusRecord);
 
     List<ReconTaskStatus> resultList = new ArrayList<>();

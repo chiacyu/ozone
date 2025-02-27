@@ -38,6 +38,7 @@ import org.apache.hadoop.hdds.scm.container.replication.ReplicationManager;
 import org.apache.hadoop.hdds.scm.events.SCMEvents;
 import org.apache.hadoop.hdds.scm.node.states.NodeNotFoundException;
 import org.apache.hadoop.hdds.server.events.EventQueue;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -339,9 +340,9 @@ public class TestNodeDecommissionMetrics {
 
     nodeManager.setPipelines(dn1, 2);
 
-    long before = System.currentTimeMillis();
+    long before = Time.monotonicNow();
     monitor.startMonitoring(dn1);
-    long after = System.currentTimeMillis();
+    long after = Time.monotonicNow();
 
     monitor.run();
     long startTime = monitor.getSingleTrackedNode(dn1.getIpAddress())

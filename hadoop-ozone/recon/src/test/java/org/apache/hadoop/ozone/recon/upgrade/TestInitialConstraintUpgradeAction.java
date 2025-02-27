@@ -32,6 +32,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.apache.hadoop.ozone.recon.persistence.AbstractReconSqlDBTest;
 import org.apache.hadoop.ozone.recon.scm.ReconStorageContainerManagerFacade;
+import org.apache.hadoop.util.Time;
 import org.apache.ozone.recon.schema.ContainerSchemaDefinition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -101,8 +102,8 @@ public class TestInitialConstraintUpgradeAction extends AbstractReconSqlDBTest {
               field(name("reason"))
           )
           .values(
-              System.currentTimeMillis(), // Unique container_id for each record
-              state.name(), System.currentTimeMillis(), 3, 2, 1, "Replica count mismatch"
+              Time.monotonicNow(), // Unique container_id for each record
+              state.name(), Time.monotonicNow(), 3, 2, 1, "Replica count mismatch"
           )
           .execute();
     }
@@ -124,7 +125,7 @@ public class TestInitialConstraintUpgradeAction extends AbstractReconSqlDBTest {
             field(name("replica_delta")),
             field(name("reason"))
         )
-        .values(999L, "INVALID_STATE", System.currentTimeMillis(), 3, 2, 1,
+        .values(999L, "INVALID_STATE", Time.monotonicNow(), 3, 2, 1,
             "Invalid state test").execute(),
         "Inserting an invalid container_state should fail due to the constraint");
   }
@@ -145,7 +146,7 @@ public class TestInitialConstraintUpgradeAction extends AbstractReconSqlDBTest {
           .values(
               100L, // container_id
               null, // container_state is NULL
-              System.currentTimeMillis(), 3, 2, 1, "Testing NULL state"
+              Time.monotonicNow(), 3, 2, 1, "Testing NULL state"
           )
           .execute();
     }, "Inserting a NULL container_state should fail due to the NOT NULL constraint");
@@ -164,7 +165,7 @@ public class TestInitialConstraintUpgradeAction extends AbstractReconSqlDBTest {
             field(name("replica_delta")),
             field(name("reason"))
         )
-        .values(200L, "MISSING", System.currentTimeMillis(), 3, 2, 1, "First insertion"
+        .values(200L, "MISSING", Time.monotonicNow(), 3, 2, 1, "First insertion"
         )
         .execute();
 
@@ -180,7 +181,7 @@ public class TestInitialConstraintUpgradeAction extends AbstractReconSqlDBTest {
               field(name("replica_delta")),
               field(name("reason"))
           )
-          .values(200L, "MISSING", System.currentTimeMillis(), 3, 2, 1, "Duplicate insertion"
+          .values(200L, "MISSING", Time.monotonicNow(), 3, 2, 1, "Duplicate insertion"
           )
           .execute();
     }, "Inserting a duplicate primary key should fail due to the primary key constraint");

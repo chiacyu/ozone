@@ -55,6 +55,7 @@ import org.apache.hadoop.ozone.om.OzoneManager;
 import org.apache.hadoop.ozone.om.helpers.SnapshotDiffJob;
 import org.apache.hadoop.ozone.snapshot.SnapshotDiffReportOzone;
 import org.apache.hadoop.ozone.snapshot.SnapshotDiffResponse.JobStatus;
+import org.apache.hadoop.util.Time;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -217,7 +218,7 @@ public class TestSnapshotDiffCleanupService {
     // behaviour.
     diffCleanupService.suspend();
 
-    long currentTime = System.currentTimeMillis() - 1;
+    long currentTime = Time.monotonicNow() - 1;
 
     // Add a valid DONE snapDiff job and report to DB.
     SnapshotDiffJob validRequest = addJobAndReport(DONE,

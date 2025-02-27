@@ -44,6 +44,7 @@ import org.apache.hadoop.ozone.common.Storage;
 import org.apache.hadoop.ozone.upgrade.LayoutFeature.UpgradeAction;
 import org.apache.hadoop.ozone.upgrade.LayoutFeature.UpgradeActionType;
 import org.apache.hadoop.ozone.upgrade.UpgradeException.ResultCodes;
+import org.apache.hadoop.util.Time;
 import org.apache.ratis.protocol.exceptions.NotLeaderException;
 
 /**
@@ -163,9 +164,9 @@ public abstract class BasicUpgradeFinalizer
     }
 
     boolean success = false;
-    long endTime = System.currentTimeMillis() +
+    long endTime = Time.monotonicNow() +
         TimeUnit.SECONDS.toMillis(maxTimeToWaitInSeconds);
-    while (System.currentTimeMillis() < endTime) {
+    while (Time.monotonicNow() < endTime) {
       try {
         response = reportStatus(upgradeClientID, false);
         LOG.info("Finalization Messages : {} ", response.msgs());

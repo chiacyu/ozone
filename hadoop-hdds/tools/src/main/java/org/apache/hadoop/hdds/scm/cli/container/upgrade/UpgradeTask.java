@@ -55,6 +55,7 @@ import org.apache.hadoop.ozone.container.metadata.DatanodeSchemaThreeDBDefinitio
 import org.apache.hadoop.ozone.container.metadata.DatanodeSchemaTwoDBDefinition;
 import org.apache.hadoop.ozone.container.metadata.DatanodeStore;
 import org.apache.hadoop.ozone.container.metadata.DatanodeStoreSchemaThreeImpl;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -385,7 +386,7 @@ public class UpgradeTask {
     private final ContainerData originContainerData;
     private ContainerData newContainerData;
     private long totalRow = 0L;
-    private final long startTimeMs = System.currentTimeMillis();
+    private final long startTimeMs = Time.monotonicNow();
     private long endTimeMs = 0L;
     private Status status;
 
@@ -433,7 +434,7 @@ public class UpgradeTask {
 
     public void success(long rowCount) {
       this.totalRow = rowCount;
-      this.endTimeMs = System.currentTimeMillis();
+      this.endTimeMs = Time.monotonicNow();
       this.status = Status.SUCCESS;
     }
 

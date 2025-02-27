@@ -52,6 +52,7 @@ import org.apache.hadoop.ozone.recon.persistence.ContainerHealthSchemaManager;
 import org.apache.hadoop.ozone.recon.persistence.ContainerHistory;
 import org.apache.hadoop.ozone.recon.spi.ReconContainerMetadataManager;
 import org.apache.hadoop.ozone.recon.spi.StorageContainerServiceProvider;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -265,7 +266,7 @@ public class ReconContainerManager extends ContainerManagerImpl {
       throws ContainerNotFoundException {
     super.updateContainerReplica(containerID, replica);
 
-    final long currTime = System.currentTimeMillis();
+    final long currTime = Time.monotonicNow();
     final long id = containerID.getId();
     final DatanodeDetails dnInfo = replica.getDatanodeDetails();
     final UUID uuid = dnInfo.getUuid();

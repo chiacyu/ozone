@@ -49,6 +49,7 @@ import org.apache.hadoop.hdds.utils.db.Codec;
 import org.apache.hadoop.hdds.utils.db.DelegatedCodec;
 import org.apache.hadoop.hdds.utils.db.Proto2Codec;
 import org.apache.hadoop.ozone.ClientVersion;
+import org.apache.hadoop.util.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -335,7 +336,7 @@ public final class Pipeline {
       throw new IOException(
           String.format("Datanode=%s not part of pipeline=%s", dn, id));
     }
-    nodeStatus.put(dn, System.currentTimeMillis());
+    nodeStatus.put(dn, Time.monotonicNow());
   }
 
   public boolean isHealthy() {
