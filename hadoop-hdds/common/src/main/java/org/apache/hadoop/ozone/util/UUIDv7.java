@@ -17,10 +17,10 @@
 
 package org.apache.hadoop.ozone.util;
 
-import org.apache.hadoop.util.Time;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.util.UUID;
+import org.apache.hadoop.util.Time;
 
 /**
  * Utility class for generating UUIDv7.

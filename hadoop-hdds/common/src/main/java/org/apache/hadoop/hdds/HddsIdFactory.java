@@ -17,8 +17,8 @@
 
 package org.apache.hadoop.hdds;
 
-import org.apache.hadoop.util.Time;
 import java.util.concurrent.atomic.AtomicLong;
+import org.apache.hadoop.util.Time;
 
 /**
  * HDDS Id generator.

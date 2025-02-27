@@ -17,7 +17,6 @@
 
 package org.apache.hadoop.hdds.server.http;
 
-import org.apache.hadoop.util.Time;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -26,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.hadoop.util.Time;
 
 /**
  * Servlet filter to add no caching headers.
