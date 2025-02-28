@@ -693,7 +693,7 @@ final class TestSecureOzoneCluster {
       OzoneTokenIdentifier tokenId = OzoneTokenIdentifier.readProtoBuf(
           token.getIdentifier());
       tokenId.setRenewer(new Text("om"));
-      tokenId.setMaxDate(Time.monotonicNow() * 2);
+      tokenId.setMaxDate(Time.monotonicNowNanos() * 2);
       Token<OzoneTokenIdentifier> tamperedToken = new Token<>(
           tokenId.getBytes(), token2.getPassword(), token2.getKind(),
           token2.getService());
