@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -1141,16 +1144,28 @@ public class KeyValueContainer implements Container<KeyValueContainerData> {
    */
   private void copyContainerToDestination(Path destination)
       throws IOException {
-    try {
-      if (Files.exists(destination)) {
-        FileUtils.deleteDirectory(destination.toFile());
+    File sourceDir = new File(containerData.getContainerPath());
+    File lockFile = new File(sourceDir, ".lock");
+    try (RandomAccessFile raf = new RandomAccessFile(lockFile, "rw");
+         FileChannel channel = raf.getChannel()) {
+      {
+        FileLock lock = channel.lock(0, Long.MAX_VALUE, true);
+        try {
+          if (Files.exists(destination)) {
+            FileUtils.deleteDirectory(destination.toFile());
+          }
+          FileUtils.copyDirectory(sourceDir, destination.toFile());
+        } finally {
+          lock.release();
+        }
       }
-      FileUtils.copyDirectory(new File(containerData.getContainerPath()),
-          destination.toFile());
-
     } catch (IOException e) {
       LOG.error("Failed when copying container to {}", destination, e);
       throw e;
+    } finally {
+      if (lockFile.exists()) {
+        lockFile.delete();
+      }
     }
   }
 }
