@@ -82,7 +82,7 @@ run mkdir -p ./log
 run mkdir -p ./temp
 run mkdir -p ./tests
 
-run cp -r "${ROOT}/hadoop-hdds/common/src/main/conf/" "etc/hadoop"
+run cp -r "${ROOT}/hadoop-hdds/common/src/main/conf/" "etc/ozone"
 run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/om-audit-log4j2.properties" "etc/hadoop"
 run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-audit-log4j2.properties" "etc/hadoop"
 run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-container-log4j2.properties" "etc/hadoop"
