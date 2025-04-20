@@ -150,7 +150,7 @@ KMS-SITE.XML_hadoop.kms.proxyuser.s3g.hosts=*
 OZONE_DATANODE_SECURE_USER=root
 JSVC_HOME=/usr/bin
 
-OZONE_CONF_DIR=/etc/hadoop
+OZONE_CONF_DIR=/etc/ozone
 OZONE_LOG_DIR=/var/log/hadoop
 
 no_proxy=om,scm,recon,s3g,kdc,localhost,127.0.0.1
