@@ -97,13 +97,13 @@ if [ -n "$KERBEROS_ENABLED" ]; then
     sudo sed -i "s/krb5/$KERBEROS_SERVER/g" "/etc/krb5.conf" || true
 fi
 
-CONF_DESTINATION_DIR="${OZONE_CONF_DIR:-/opt/hadoop/etc/hadoop}"
+CONF_DESTINATION_DIR="${OZONE_CONF_DIR:-/opt/hadoop/etc/ozone}"
 
 #Try to copy the defaults
 set +e
-if [[ -d "/opt/ozone/etc/hadoop" ]]; then
+if [[ -d "/opt/ozone/etc/ozone" ]]; then
    cp /opt/ozone/etc/hadoop/* "$CONF_DESTINATION_DIR/" > /dev/null 2>&1
-elif [[ -d "/opt/hadoop/etc/hadoop" ]]; then
+elif [[ -d "/opt/hadoop/etc/ozone" ]]; then
    cp /opt/hadoop/etc/hadoop/* "$CONF_DESTINATION_DIR/" > /dev/null 2>&1
 fi
 set -e
