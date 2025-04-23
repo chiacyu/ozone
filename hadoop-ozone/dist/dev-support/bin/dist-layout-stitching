@@ -82,16 +82,16 @@ run mkdir -p ./log
 run mkdir -p ./temp
 run mkdir -p ./tests
 
-run cp -r "${ROOT}/hadoop-hdds/common/src/main/conf/" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/om-audit-log4j2.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-audit-log4j2.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-container-log4j2.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/scm-audit-log4j2.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/s3g-audit-log4j2.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/ozone-site.xml" "etc/hadoop"
-run cp -f "${ROOT}/hadoop-ozone/dist/src/shell/conf/log4j.properties" "etc/hadoop"
-run cp "${ROOT}/hadoop-hdds/common/src/main/resources/network-topology-default.xml" "etc/hadoop"
-run cp "${ROOT}/hadoop-hdds/common/src/main/resources/network-topology-nodegroup.xml" "etc/hadoop"
+run cp -r "${ROOT}/hadoop-hdds/common/src/main/conf/" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/om-audit-log4j2.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-audit-log4j2.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/dn-container-log4j2.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/scm-audit-log4j2.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/s3g-audit-log4j2.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-ozone/dist/src/shell/conf/ozone-site.xml" "etc/ozone"
+run cp -f "${ROOT}/hadoop-ozone/dist/src/shell/conf/log4j.properties" "etc/ozone"
+run cp "${ROOT}/hadoop-hdds/common/src/main/resources/network-topology-default.xml" "etc/ozone"
+run cp "${ROOT}/hadoop-hdds/common/src/main/resources/network-topology-nodegroup.xml" "etc/ozone"
 
 run cp -r "${ROOT}/hadoop-ozone/dist/src/main/dockerlibexec/." "libexec/"
 
