@@ -42,7 +42,7 @@ OZONE-SITE.XML_ozone.client.hbase.enhancements.allowed=true
 OZONE-SITE.XML_ozone.fs.hsync.enabled=true
 OZONE-SITE.XML_ozone.hbase.enhancements.allowed=true
 
-OZONE_CONF_DIR=/etc/hadoop
+OZONE_CONF_DIR=/etc/ozone
 OZONE_LOG_DIR=/var/log/hadoop
 
 no_proxy=om,scm,s3g,kdc,localhost,127.0.0.1
