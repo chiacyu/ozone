@@ -662,7 +662,7 @@ function ozone_find_confdir
 {
   ozone_deprecate_envvar HADOOP_CONF_DIR OZONE_CONF_DIR
 
-  local conf_dir=etc/hadoop
+  local conf_dir=etc/ozone
 
   if [[ -n "${OZONE_CONF_DIR}" ]] && ozone_verify_confdir "${OZONE_CONF_DIR}"; then
     : # OK
