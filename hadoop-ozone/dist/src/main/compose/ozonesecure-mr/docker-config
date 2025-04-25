@@ -77,7 +77,7 @@ OZONE_DATANODE_SECURE_USER=root
 JSVC_HOME=/usr/bin
 
 OZONE_CLASSPATH=
-OZONE_CONF_DIR=/etc/ozone
+OZONE_CONF_DIR=/etc/hadoop
 OZONE_LOG_DIR=/var/log/hadoop
 
 no_proxy=om,scm,s3g,recon,kdc,localhost,127.0.0.1
