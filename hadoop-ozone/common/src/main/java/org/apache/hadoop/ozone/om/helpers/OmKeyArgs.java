@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import jakarta.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,11 +44,11 @@ public final class OmKeyArgs implements Auditable {
   private final String ownerName;
   private long dataSize;
   private final ReplicationConfig replicationConfig;
-  private ImmutableList<OmKeyLocationInfo> locationInfoList;
+  private List<OmKeyLocationInfo> locationInfoList;
   private final boolean isMultipartKey;
   private final String multipartUploadID;
   private final int multipartUploadPartNumber;
-  private final ImmutableMap<String, String> metadata;
+  private final Map<String, String> metadata;
   private final boolean sortDatanodesInPipeline;
   private final ImmutableList<OzoneAcl> acls;
   private final boolean latestVersionLocation;
@@ -69,11 +70,11 @@ public final class OmKeyArgs implements Auditable {
     this.keyName = b.keyName;
     this.dataSize = b.dataSize;
     this.replicationConfig = b.replicationConfig;
-    this.locationInfoList = b.locationInfoList == null ? ImmutableList.of() : ImmutableList.copyOf(b.locationInfoList);
+    this.locationInfoList = new ArrayList<>(b.locationInfoList);
     this.isMultipartKey = b.isMultipartKey;
     this.multipartUploadID = b.multipartUploadID;
     this.multipartUploadPartNumber = b.multipartUploadPartNumber;
-    this.metadata = b.metadata == null ? ImmutableMap.of() : ImmutableMap.copyOf(b.metadata);
+    this.metadata = new HashMap<>(b.metadata);
     this.acls = b.acls == null ? ImmutableList.of() : ImmutableList.copyOf(b.acls);
     this.sortDatanodesInPipeline = b.sortDatanodesInPipeline;
     this.latestVersionLocation = b.latestVersionLocation;
@@ -130,15 +131,15 @@ public final class OmKeyArgs implements Auditable {
   }
 
   public Map<String, String> getMetadata() {
-    return metadata;
+    return new HashMap<>(metadata);
   }
 
   public void setLocationInfoList(List<OmKeyLocationInfo> locationInfoList) {
-    this.locationInfoList = locationInfoList == null ? ImmutableList.of() : ImmutableList.copyOf(locationInfoList);
+    this.locationInfoList = new ArrayList<>(locationInfoList);
   }
 
   public List<OmKeyLocationInfo> getLocationInfoList() {
-    return locationInfoList;
+    return new ArrayList<>(locationInfoList);
   }
 
   public boolean getSortDatanodes() {
