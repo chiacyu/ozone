@@ -18,8 +18,9 @@
 package org.apache.hadoop.ozone.om.helpers;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import jakarta.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,18 +43,18 @@ public final class OmKeyArgs implements Auditable {
   private final String ownerName;
   private long dataSize;
   private final ReplicationConfig replicationConfig;
-  private List<OmKeyLocationInfo> locationInfoList;
+  private ImmutableList<OmKeyLocationInfo> locationInfoList;
   private final boolean isMultipartKey;
   private final String multipartUploadID;
   private final int multipartUploadPartNumber;
-  private final Map<String, String> metadata;
+  private final ImmutableMap<String, String> metadata;
   private final boolean sortDatanodesInPipeline;
-  private final List<OzoneAcl> acls;
+  private final ImmutableList<OzoneAcl> acls;
   private final boolean latestVersionLocation;
   private final boolean recursive;
   private final boolean headOp;
   private final boolean forceUpdateContainerCacheFromSCM;
-  private final Map<String, String> tags;
+  private final ImmutableMap<String, String> tags;
   // expectedDataGeneration, when used in key creation indicates that a
   // key with the same keyName should exist with the given generation.
   // For a key commit to succeed, the original key should still be present with the
@@ -68,19 +69,19 @@ public final class OmKeyArgs implements Auditable {
     this.keyName = b.keyName;
     this.dataSize = b.dataSize;
     this.replicationConfig = b.replicationConfig;
-    this.locationInfoList = b.locationInfoList;
+    this.locationInfoList = b.locationInfoList == null ? ImmutableList.of() : ImmutableList.copyOf(b.locationInfoList);
     this.isMultipartKey = b.isMultipartKey;
     this.multipartUploadID = b.multipartUploadID;
     this.multipartUploadPartNumber = b.multipartUploadPartNumber;
-    this.metadata = b.metadata;
-    this.acls = b.acls;
+    this.metadata = b.metadata == null ? ImmutableMap.of() : ImmutableMap.copyOf(b.metadata);
+    this.acls = b.acls == null ? ImmutableList.of() : ImmutableList.copyOf(b.acls);
     this.sortDatanodesInPipeline = b.sortDatanodesInPipeline;
     this.latestVersionLocation = b.latestVersionLocation;
     this.recursive = b.recursive;
     this.headOp = b.headOp;
     this.forceUpdateContainerCacheFromSCM = b.forceUpdateContainerCacheFromSCM;
     this.ownerName = b.ownerName;
-    this.tags = b.tags;
+    this.tags = b.tags == null ? ImmutableMap.of() : ImmutableMap.copyOf(b.tags);
     this.expectedDataGeneration = b.expectedDataGeneration;
   }
 
@@ -133,7 +134,7 @@ public final class OmKeyArgs implements Auditable {
   }
 
   public void setLocationInfoList(List<OmKeyLocationInfo> locationInfoList) {
-    this.locationInfoList = locationInfoList;
+    this.locationInfoList = locationInfoList == null ? ImmutableList.of() : ImmutableList.copyOf(locationInfoList);
   }
 
   public List<OmKeyLocationInfo> getLocationInfoList() {
@@ -185,7 +186,7 @@ public final class OmKeyArgs implements Auditable {
   @VisibleForTesting
   public void addLocationInfo(OmKeyLocationInfo locationInfo) {
     if (this.locationInfoList == null) {
-      locationInfoList = new ArrayList<>();
+      locationInfoList = ImmutableList.of();
     }
     locationInfoList.add(locationInfo);
   }
@@ -249,14 +250,14 @@ public final class OmKeyArgs implements Auditable {
     private String ownerName;
     private long dataSize;
     private ReplicationConfig replicationConfig;
-    private List<OmKeyLocationInfo> locationInfoList;
+    private ImmutableList<OmKeyLocationInfo> locationInfoList;
     private boolean isMultipartKey;
     private String multipartUploadID;
     private int multipartUploadPartNumber;
     private final Map<String, String> metadata = new HashMap<>();
     private boolean sortDatanodesInPipeline;
     private boolean latestVersionLocation;
-    private List<OzoneAcl> acls;
+    private ImmutableList<OzoneAcl> acls;
     private boolean recursive;
     private boolean headOp;
     private boolean forceUpdateContainerCacheFromSCM;
@@ -294,12 +295,12 @@ public final class OmKeyArgs implements Auditable {
     }
 
     public Builder setLocationInfoList(List<OmKeyLocationInfo> locationInfos) {
-      this.locationInfoList = locationInfos;
+      this.locationInfoList = locationInfos == null ? ImmutableList.of() : ImmutableList.copyOf(locationInfos);
       return this;
     }
 
     public Builder setAcls(List<OzoneAcl> listOfAcls) {
-      this.acls = listOfAcls;
+      this.acls = listOfAcls == null ? ImmutableList.of() : ImmutableList.copyOf(listOfAcls);
       return this;
     }
 
