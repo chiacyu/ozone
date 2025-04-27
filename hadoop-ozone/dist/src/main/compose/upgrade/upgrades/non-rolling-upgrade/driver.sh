@@ -53,6 +53,7 @@ echo "--- RUNNING WITH OLD VERSION $OZONE_UPGRADE_FROM ---"
 start_docker_env
 callback with_old_version
 
+echo "--- RUNNING WITH OLD VERSION ROBOT TEST PREPARE ---"
 execute_robot_test "$SCM" -N "${OUTPUT_NAME}-prepare" upgrade/prepare.robot
 stop_docker_env
 prepare_for_image "$OZONE_UPGRADE_TO"
