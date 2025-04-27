@@ -251,7 +251,7 @@ public final class OmKeyArgs implements Auditable {
     private String ownerName;
     private long dataSize;
     private ReplicationConfig replicationConfig;
-    private ImmutableList<OmKeyLocationInfo> locationInfoList;
+    private List<OmKeyLocationInfo> locationInfoList;
     private boolean isMultipartKey;
     private String multipartUploadID;
     private int multipartUploadPartNumber;
@@ -296,7 +296,7 @@ public final class OmKeyArgs implements Auditable {
     }
 
     public Builder setLocationInfoList(List<OmKeyLocationInfo> locationInfos) {
-      this.locationInfoList = locationInfos == null ? ImmutableList.of() : ImmutableList.copyOf(locationInfos);
+      this.locationInfoList = new ArrayList<>(locationInfos);
       return this;
     }
 
