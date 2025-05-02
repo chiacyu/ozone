@@ -111,27 +111,9 @@ public class TestS3GatewayMetrics {
    * Bucket Level Endpoints.
    */
 
-  @Test
-  public void testHeadBucketSuccess() throws Exception {
 
-    long oriMetric = metrics.getHeadBucketSuccess();
 
-    bucketEndpoint.head(bucketName);
 
-    long curMetric = metrics.getHeadBucketSuccess();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testListBucketSuccess() throws Exception {
-
-    long oriMetric = metrics.getListS3BucketsSuccess();
-
-    rootEndpoint.get().getEntity();
-
-    long curMetric = metrics.getListS3BucketsSuccess();
-    assertEquals(1L, curMetric - oriMetric);
-  }
 
   @Test
   public void testGetBucketSuccess() throws Exception {
@@ -185,92 +167,6 @@ public class TestS3GatewayMetrics {
     long curMetric = metrics.getCreateBucketFailure();
     assertEquals(1L, curMetric - oriMetric);
   }
-
-  @Test
-  public void testDeleteBucketSuccess() throws Exception {
-    long oriMetric = metrics.getDeleteBucketSuccess();
-
-    bucketEndpoint.delete(bucketName);
-
-    long curMetric = metrics.getDeleteBucketSuccess();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testDeleteBucketFailure() throws Exception {
-    long oriMetric = metrics.getDeleteBucketFailure();
-    bucketEndpoint.delete(bucketName);
-
-    // Deleting a bucket that does not exist will result in delete failure
-    OS3Exception e = assertThrows(OS3Exception.class, () ->
-        bucketEndpoint.delete(bucketName));
-    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getCode(), e.getCode());
-    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getErrorMessage(),
-        e.getErrorMessage());
-
-    long curMetric = metrics.getDeleteBucketFailure();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testGetAclSuccess() throws Exception {
-    long oriMetric = metrics.getGetAclSuccess();
-
-    Response response =
-        bucketEndpoint.get(bucketName, null, null,
-            null, 0, null, null,
-            null, null, "acl", null, null, 0, null);
-    long curMetric = metrics.getGetAclSuccess();
-    assertEquals(HTTP_OK, response.getStatus());
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testGetAclFailure() throws Exception {
-    long oriMetric = metrics.getGetAclFailure();
-
-    // Failing the getACL endpoint by applying ACL on a non-Existent Bucket
-    OS3Exception e = assertThrows(OS3Exception.class, () -> bucketEndpoint.get(
-        "random_bucket", null, null, null, 0, null,
-        null, null, null, "acl", null, null, 0, null));
-    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getCode(), e.getCode());
-    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getErrorMessage(),
-        e.getErrorMessage());
-    long curMetric = metrics.getGetAclFailure();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testPutAclSuccess() throws Exception {
-    long oriMetric = metrics.getPutAclSuccess();
-
-    clientStub.getObjectStore().createS3Bucket("b1");
-    InputStream inputBody = TestBucketAcl.class.getClassLoader()
-        .getResourceAsStream("userAccessControlList.xml");
-
-    bucketEndpoint.put("b1", ACL_MARKER, headers, inputBody);
-    inputBody.close();
-    long curMetric = metrics.getPutAclSuccess();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
-  @Test
-  public void testPutAclFailure() throws Exception {
-    // Failing the putACL endpoint by applying ACL on a non-Existent Bucket
-    long oriMetric = metrics.getPutAclFailure();
-
-    InputStream inputBody = TestBucketAcl.class.getClassLoader()
-        .getResourceAsStream("userAccessControlList.xml");
-    try {
-      assertThrows(OS3Exception.class, () -> bucketEndpoint.put("unknown_bucket", ACL_MARKER, headers,
-          inputBody));
-    } finally {
-      inputBody.close();
-    }
-    long curMetric = metrics.getPutAclFailure();
-    assertEquals(1L, curMetric - oriMetric);
-  }
-
 
   /**
    * Object Level Endpoints.

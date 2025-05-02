@@ -18,6 +18,7 @@
 package org.apache.hadoop.ozone.s3.endpoint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import javax.ws.rs.core.Response;
@@ -28,6 +29,7 @@ import org.apache.hadoop.ozone.client.OzoneClient;
 import org.apache.hadoop.ozone.client.OzoneClientStub;
 import org.apache.hadoop.ozone.s3.exception.OS3Exception;
 import org.apache.hadoop.ozone.s3.exception.S3ErrorTable;
+import org.apache.hadoop.ozone.s3.metrics.S3GatewayMetrics;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +43,7 @@ public class TestBucketDelete {
   private OzoneClient clientStub;
   private ObjectStore objectStoreStub;
   private BucketEndpoint bucketEndpoint;
+  private S3GatewayMetrics metrics;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -56,7 +59,7 @@ public class TestBucketDelete {
         .setClient(clientStub)
         .build();
 
-
+    metrics = bucketEndpoint.getMetrics();
   }
 
   @Test
@@ -92,5 +95,31 @@ public class TestBucketDelete {
       return;
     }
     fail("testDeleteWithBucketNotEmpty failed");
+  }
+
+  @Test
+  public void testDeleteBucketSuccess() throws Exception {
+    long oriMetric = metrics.getDeleteBucketSuccess();
+
+    bucketEndpoint.delete(bucketName);
+
+    long curMetric = metrics.getDeleteBucketSuccess();
+    assertEquals(1L, curMetric - oriMetric);
+  }
+
+  @Test
+  public void testDeleteBucketFailure() throws Exception {
+    long oriMetric = metrics.getDeleteBucketFailure();
+    bucketEndpoint.delete(bucketName);
+
+    // Deleting a bucket that does not exist will result in delete failure
+    OS3Exception e = assertThrows(OS3Exception.class, () ->
+        bucketEndpoint.delete(bucketName));
+    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getCode(), e.getCode());
+    assertEquals(S3ErrorTable.NO_SUCH_BUCKET.getErrorMessage(),
+        e.getErrorMessage());
+
+    long curMetric = metrics.getDeleteBucketFailure();
+    assertEquals(1L, curMetric - oriMetric);
   }
 }

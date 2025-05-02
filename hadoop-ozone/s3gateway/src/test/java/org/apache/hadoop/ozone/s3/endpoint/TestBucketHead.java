@@ -26,6 +26,7 @@ import org.apache.hadoop.ozone.OzoneConsts;
 import org.apache.hadoop.ozone.client.OzoneClient;
 import org.apache.hadoop.ozone.client.OzoneClientStub;
 import org.apache.hadoop.ozone.s3.exception.OS3Exception;
+import org.apache.hadoop.ozone.s3.metrics.S3GatewayMetrics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +38,7 @@ public class TestBucketHead {
   private String bucketName = OzoneConsts.BUCKET;
   private OzoneClient clientStub;
   private BucketEndpoint bucketEndpoint;
+  private S3GatewayMetrics metrics;
 
   @BeforeEach
   public void setup() throws Exception {
@@ -47,6 +49,8 @@ public class TestBucketHead {
     bucketEndpoint = EndpointBuilder.newBucketEndpointBuilder()
         .setClient(clientStub)
         .build();
+
+    metrics = bucketEndpoint.getMetrics();
   }
 
   @Test
@@ -63,5 +67,16 @@ public class TestBucketHead {
         bucketEndpoint.head("unknownbucket"));
     assertEquals(HTTP_NOT_FOUND, e.getHttpCode());
     assertEquals("NoSuchBucket", e.getCode());
+  }
+
+  @Test
+  public void testHeadBucketSuccess() throws Exception {
+
+    long oriMetric = metrics.getHeadBucketSuccess();
+
+    bucketEndpoint.head(bucketName);
+
+    long curMetric = metrics.getHeadBucketSuccess();
+    assertEquals(1L, curMetric - oriMetric);
   }
 }
